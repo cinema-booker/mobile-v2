@@ -16,7 +16,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       onGenerateRoute: router.onGenerateRoute,
-      initialRoute: AppRouter.signUp,
+      initialRoute: AppRouter.signIn,
       theme: ThemeData(
         fontFamily: ThemeFontFamily.poppins,
         scaffoldBackgroundColor: ThemeColor.brown300,

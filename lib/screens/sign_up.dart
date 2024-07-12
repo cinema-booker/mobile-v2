@@ -1,7 +1,8 @@
-import 'package:cinema_booker/theme/theme_color.dart';
-import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cinema_booker/services/auth_service.dart';
+import 'package:cinema_booker/theme/theme_color.dart';
+import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:cinema_booker/widgets/text_input.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -16,6 +17,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  final AuthService _authService = AuthService();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _signUp() {
+    if (_formKey.currentState!.validate()) {
+      _authService.signUp(
+        context: context,
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +71,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 keyboardType: TextInputType.visiblePassword,
               ),
               ElevatedButton(
+                onPressed: _signUp,
+                child: const Text('Sign Up'),
+              ),
+              ElevatedButton(
                 onPressed: () {
-                  print(_formKey.currentState.toString());
+                  Navigator.of(context).pushNamed('/sign-in');
                 },
                 child: const Text('Sign In'),
               ),

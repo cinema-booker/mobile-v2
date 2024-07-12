@@ -1,3 +1,4 @@
+import 'package:cinema_booker/screens/home.dart';
 import 'package:cinema_booker/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 
@@ -5,8 +6,8 @@ import 'package:cinema_booker/screens/sign_in.dart';
 
 class AppRouter {
   static const String onboarding = '/onboarding';
-  static const String signIn = '/signIn';
-  static const String signUp = '/signUp';
+  static const String signIn = '/sign-in';
+  static const String signUp = '/sign-up';
   static const String home = '/home';
   static const String profile = '/profile';
 
@@ -19,7 +20,7 @@ class AppRouter {
       case signUp:
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
       case home:
-        return MaterialPageRoute(builder: (_) => const Placeholder());
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
       case profile:
         return MaterialPageRoute(builder: (_) => const Placeholder());
       default:
