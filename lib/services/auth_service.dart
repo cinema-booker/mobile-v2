@@ -10,6 +10,7 @@ import 'package:cinema_booker/api/error_handler.dart';
 import 'package:cinema_booker/models/sign_in_request.dart';
 import 'package:cinema_booker/models/sign_up_request.dart';
 import 'package:cinema_booker/models/sign_in_response.dart';
+import 'package:cinema_booker/models/get_me_response.dart';
 import 'package:cinema_booker/router/app_router.dart';
 
 class AuthService {
@@ -82,13 +83,17 @@ class AuthService {
             'cinema-booker-token',
             signInResponse.token,
           );
-          await preferences.setString(
-            'cinema-booker-role',
+          // await preferences.setString(
+          //   'cinema-booker-role',
+          //   signInResponse.role,
+          // );
+
+          Provider.of<AuthProvider>(context, listen: false).setUser(
+            signInResponse.id,
+            signInResponse.name,
+            signInResponse.email,
             signInResponse.role,
           );
-
-          Provider.of<AuthProvider>(context, listen: false)
-              .setUser(signInResponse);
 
           showSnackBarError(context: context, message: 'Sign in successful');
 
@@ -105,5 +110,43 @@ class AuthService {
         message: error.toString(),
       );
     }
+  }
+
+  void getMe({required BuildContext context}) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String? token = preferences.getString('cinema-booker-token');
+
+      if (token == null) {
+        showSnackBarError(
+          context: context,
+          message: 'Token not found',
+        );
+        return;
+      }
+
+      http.Response response = await http.get(
+        Uri.parse('http://10.0.2.2:3000/me'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      httpErrorHandler(
+        response: response,
+        context: context,
+        onSuccess: () async {
+          GetMeResponse getMeResponse = GetMeResponse.fromJson(response.body);
+
+          Provider.of<AuthProvider>(context, listen: false).setUser(
+            getMeResponse.id,
+            getMeResponse.name,
+            getMeResponse.email,
+            getMeResponse.role,
+          );
+        },
+      );
+    } catch (error) {}
   }
 }
