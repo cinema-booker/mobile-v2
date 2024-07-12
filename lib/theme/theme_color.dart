@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeColor {
-  static const Color brown100 = Color(0xFF4F4F4F);
+  static const Color brown100 = Color(0xFF333333);
   static const Color brown200 = Color(0xFF262626);
   static const Color brown300 = Color(0xFF1D1D1F);
 
