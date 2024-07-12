@@ -1,8 +1,8 @@
-import 'package:cinema_booker/screens/home.dart';
-import 'package:cinema_booker/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cinema_booker/screens/sign_in.dart';
+import 'package:cinema_booker/screens/sign_in_screen.dart';
+import 'package:cinema_booker/screens/sign_up_screen.dart';
+import 'package:cinema_booker/screens/home_screen.dart';
 
 class AppRouter {
   static const String onboarding = '/onboarding';

@@ -1,3 +1,4 @@
+import 'package:cinema_booker/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinema_booker/services/auth_service.dart';
@@ -68,7 +69,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/sign-up');
+                  Navigator.pushNamed(context, AppRouter.signUp);
                 },
                 child: const Text('Sign Up'),
               ),

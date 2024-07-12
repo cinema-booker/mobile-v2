@@ -1,15 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:cinema_booker/models/sign_in_response.dart';
-import 'package:cinema_booker/models/sign_up_request.dart';
-import 'package:cinema_booker/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:cinema_booker/api/error_handler.dart';
-import 'package:cinema_booker/models/sign_in_request.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:cinema_booker/providers/auth_provider.dart';
+import 'package:cinema_booker/api/error_handler.dart';
+import 'package:cinema_booker/models/sign_in_request.dart';
+import 'package:cinema_booker/models/sign_up_request.dart';
+import 'package:cinema_booker/models/sign_in_response.dart';
+import 'package:cinema_booker/router/app_router.dart';
 
 class AuthService {
   void signUp({
@@ -39,6 +40,7 @@ class AuthService {
         context: context,
         onSuccess: () {
           showSnackBarError(context: context, message: 'Sign up successful');
+          Navigator.pushNamed(context, AppRouter.signIn);
         },
       );
     } catch (error) {
@@ -92,7 +94,7 @@ class AuthService {
 
           Navigator.pushNamedAndRemoveUntil(
             context,
-            '/home',
+            AppRouter.home,
             (route) => false,
           );
         },
