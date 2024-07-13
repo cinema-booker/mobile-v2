@@ -1,3 +1,4 @@
+import 'package:cinema_booker/features/cinema/screens/cinema_create_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -18,8 +19,10 @@ class AppRouter {
   static const String home = '/home';
   static const String profile = '/profile';
 
+  static const String cinemaCreate = '/cinema-create';
+
   List<String> authRoutes = [signIn, signUp, forgetPassword];
-  List<String> privateRoutes = [home, profile];
+  List<String> privateRoutes = [home, profile, cinemaCreate];
 
   GoRouter goRouter(BuildContext context) {
     return GoRouter(
@@ -83,6 +86,17 @@ class AppRouter {
                   path: profile,
                   pageBuilder: (context, state) => const NoTransitionPage(
                     child: ProfileScreen(),
+                  ),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: cinemaCreate,
+                  path: cinemaCreate,
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: CinemaCreateScreen(),
                   ),
                 ),
               ],

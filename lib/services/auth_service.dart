@@ -109,14 +109,6 @@ class AuthService {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       String? token = preferences.getString('cinema-booker-token');
 
-      if (token == null) {
-        showSnackBarError(
-          context: context,
-          message: 'Token not found',
-        );
-        return;
-      }
-
       http.Response response = await http.get(
         Uri.parse('http://10.0.2.2:3000/me'),
         headers: <String, String>{
