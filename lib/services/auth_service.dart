@@ -1,17 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:cinema_booker/providers/auth_provider.dart';
+import 'package:cinema_booker/router/app_router.dart';
 import 'package:cinema_booker/api/error_handler.dart';
 import 'package:cinema_booker/models/sign_in_request.dart';
 import 'package:cinema_booker/models/sign_up_request.dart';
 import 'package:cinema_booker/models/sign_in_response.dart';
 import 'package:cinema_booker/models/get_me_response.dart';
-import 'package:cinema_booker/router/app_router.dart';
 
 class AuthService {
   void signUp({
@@ -41,7 +42,7 @@ class AuthService {
         context: context,
         onSuccess: () {
           showSnackBarError(context: context, message: 'Sign up successful');
-          Navigator.pushNamed(context, AppRouter.signIn);
+          context.goNamed(AppRouter.signIn);
         },
       );
     } catch (error) {
@@ -83,10 +84,6 @@ class AuthService {
             'cinema-booker-token',
             signInResponse.token,
           );
-          // await preferences.setString(
-          //   'cinema-booker-role',
-          //   signInResponse.role,
-          // );
 
           Provider.of<AuthProvider>(context, listen: false).setUser(
             signInResponse.id,
@@ -96,12 +93,7 @@ class AuthService {
           );
 
           showSnackBarError(context: context, message: 'Sign in successful');
-
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            AppRouter.home,
-            (route) => false,
-          );
+          context.goNamed(AppRouter.home);
         },
       );
     } catch (error) {
