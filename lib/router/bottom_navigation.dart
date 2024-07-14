@@ -21,6 +21,7 @@ class BottomNavigation extends StatelessWidget {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: navigationShell.currentIndex,
         onTap: _goBranch,
         items: const [
@@ -33,8 +34,12 @@ class BottomNavigation extends StatelessWidget {
             label: 'Profile',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Cinema List',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Profile',
+            label: 'Cinema Create',
           ),
         ],
       ),

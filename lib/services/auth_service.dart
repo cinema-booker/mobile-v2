@@ -131,6 +131,11 @@ class AuthService {
           );
         },
       );
-    } catch (error) {}
+    } catch (error) {
+      showSnackBarError(
+        context: context,
+        message: error.toString(),
+      );
+    }
   }
 }
