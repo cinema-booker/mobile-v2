@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cinema_booker/features/cinema/data/cinema_details_response.dart';
 import 'package:cinema_booker/features/cinema/data/cinema_list_response.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -90,6 +91,42 @@ class CinemaService {
         message: error.toString(),
       );
       return [];
+    }
+  }
+
+  Future<CinemaDetailsResponse?> details({
+    required BuildContext context,
+    required int cinemaId,
+  }) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String? token = preferences.getString('cinema-booker-token');
+
+      http.Response response = await http.get(
+        Uri.parse('http://10.0.2.2:3000/cinemas/$cinemaId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        CinemaDetailsResponse cinemaDetailsResponse =
+            CinemaDetailsResponse.fromJson(response.body);
+        return cinemaDetailsResponse;
+      } else {
+        showSnackBarError(
+          context: context,
+          message: 'Failed to fetch cinema list',
+        );
+        return null;
+      }
+    } catch (error) {
+      showSnackBarError(
+        context: context,
+        message: error.toString(),
+      );
+      return null;
     }
   }
 }

@@ -9,8 +9,9 @@ import 'package:cinema_booker/features/auth/screens/sign_in_screen.dart';
 import 'package:cinema_booker/features/auth/screens/forget_password_screen.dart';
 import 'package:cinema_booker/screens/home_screen.dart';
 import 'package:cinema_booker/screens/profile_screen.dart';
-import 'package:cinema_booker/features/cinema/screens/cinema_create_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/cinema_list_screen.dart';
+import 'package:cinema_booker/features/cinema/screens/cinema_details_screen.dart';
+import 'package:cinema_booker/features/cinema/screens/cinema_create_screen.dart';
 
 class AppRouter {
   static const String onboarding = '/onboarding';
@@ -21,6 +22,7 @@ class AppRouter {
   static const String profile = '/profile';
 
   static const String cinemaList = '/cinema-list';
+  static const String cinemaDetails = '/cinema-details';
   static const String cinemaCreate = '/cinema-create';
 
   List<String> authRoutes = [signIn, signUp, forgetPassword];
@@ -111,6 +113,20 @@ class AppRouter {
                   pageBuilder: (context, state) => const NoTransitionPage(
                     child: CinemaCreateScreen(),
                   ),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: cinemaDetails,
+                  path: cinemaDetails,
+                  pageBuilder: (context, state) {
+                    final cinemaId = GoRouterState.of(context).extra as int;
+                    return NoTransitionPage(
+                      child: CinemaDetailsScreen(cinemaId: cinemaId),
+                    );
+                  },
                 ),
               ],
             ),

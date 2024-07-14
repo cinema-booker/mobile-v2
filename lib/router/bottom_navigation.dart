@@ -41,6 +41,10 @@ class BottomNavigation extends StatelessWidget {
             icon: Icon(Icons.settings),
             label: 'Cinema Create',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: 'Cinema Detais',
+          ),
         ],
       ),
     );

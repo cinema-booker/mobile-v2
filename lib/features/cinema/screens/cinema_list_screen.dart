@@ -1,9 +1,11 @@
+import 'package:cinema_booker/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:cinema_booker/features/cinema/data/cinema_list_response.dart';
 import 'package:cinema_booker/features/cinema/services/cinema_service.dart';
+import 'package:go_router/go_router.dart';
 
 class CinemaListScreen extends StatefulWidget {
   const CinemaListScreen({super.key});
@@ -131,6 +133,10 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
                               style: const TextStyle(
                                 color: ThemeColor.white,
                               ),
+                            ),
+                            onTap: () => context.pushNamed(
+                              AppRouter.cinemaDetails,
+                              extra: cinema.id,
                             ),
                           );
                         },
