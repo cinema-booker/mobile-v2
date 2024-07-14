@@ -1,5 +1,7 @@
 import 'package:cinema_booker/features/event/screens/event_create_screen.dart';
+import 'package:cinema_booker/features/event/screens/event_details_screen.dart';
 import 'package:cinema_booker/features/event/screens/event_list_screen.dart';
+import 'package:cinema_booker/features/event/screens/session_create_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -31,6 +33,8 @@ class AppRouter {
 
   static const String eventList = '/event-list';
   static const String eventCreate = 'event-create';
+  static const String eventDetails = 'event-details';
+  static const String sessionCreate = 'session-create';
 
   List<String> authRoutes = [signIn, signUp, forgetPassword];
   List<String> privateRoutes = [
@@ -42,6 +46,8 @@ class AppRouter {
     // roomCreate,
     eventList,
     // eventCreate,
+    // eventDetails,
+    // sessionCreate,
   ];
 
   GoRouter goRouter(BuildContext context) {
@@ -183,6 +189,32 @@ class AppRouter {
                           child: EventCreateScreen(
                               // eventId: params['eventId']!,
                               ),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      name: eventDetails,
+                      path: eventDetails,
+                      pageBuilder: (context, state) {
+                        final params =
+                            GoRouterState.of(context).extra as Map<String, int>;
+                        return NoTransitionPage(
+                          child: EventDetailsScreen(
+                            eventId: params['eventId']!,
+                          ),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      name: sessionCreate,
+                      path: sessionCreate,
+                      pageBuilder: (context, state) {
+                        final params =
+                            GoRouterState.of(context).extra as Map<String, int>;
+                        return NoTransitionPage(
+                          child: SessionCreateScreen(
+                            eventId: params['eventId']!,
+                          ),
                         );
                       },
                     ),

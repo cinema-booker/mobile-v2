@@ -139,7 +139,7 @@ class _EventListScreenState extends State<EventListScreen> {
                               ),
                             ),
                             onTap: () => context.pushNamed(
-                              AppRouter.cinemaDetails,
+                              AppRouter.eventDetails,
                               extra: {
                                 "eventId": event.id,
                               },
