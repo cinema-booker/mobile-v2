@@ -17,8 +17,12 @@ class CinemaAddress {
     return CinemaAddress(
       id: json['id'],
       address: json['address'],
-      longitude: json['longitude'],
-      latitude: json['latitude'],
+      longitude: json['longitude'] is int
+          ? json['longitude'].toDouble()
+          : json['longitude'] as double,
+      latitude: json['latitude'] is int
+          ? json['latitude'].toDouble()
+          : json['latitude'] as double,
     );
   }
 

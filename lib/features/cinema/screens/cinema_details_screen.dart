@@ -1,12 +1,12 @@
-import 'package:cinema_booker/features/cinema/services/room_service.dart';
-import 'package:cinema_booker/router/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
+import 'package:cinema_booker/router/app_router.dart';
 import 'package:cinema_booker/features/cinema/services/cinema_service.dart';
 import 'package:cinema_booker/features/cinema/data/cinema_details_response.dart';
-import 'package:go_router/go_router.dart';
+import 'package:cinema_booker/features/cinema/services/room_service.dart';
 
 class CinemaDetailsScreen extends StatefulWidget {
   final int cinemaId;

@@ -1,3 +1,5 @@
+import 'package:cinema_booker/features/event/screens/event_create_screen.dart';
+import 'package:cinema_booker/features/event/screens/event_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -27,6 +29,9 @@ class AppRouter {
   static const String cinemaCreate = '/cinema-create';
   static const String roomCreate = 'room-create';
 
+  static const String eventList = '/event-list';
+  static const String eventCreate = 'event-create';
+
   List<String> authRoutes = [signIn, signUp, forgetPassword];
   List<String> privateRoutes = [
     home,
@@ -35,6 +40,8 @@ class AppRouter {
     cinemaDetails,
     cinemaCreate,
     // roomCreate,
+    eventList,
+    // eventCreate,
   ];
 
   GoRouter goRouter(BuildContext context) {
@@ -150,6 +157,32 @@ class AppRouter {
                           child: RoomCreateScreen(
                             cinemaId: params['cinemaId']!,
                           ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: eventList,
+                  path: eventList,
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: EventListScreen(),
+                  ),
+                  routes: [
+                    GoRoute(
+                      name: eventCreate,
+                      path: eventCreate,
+                      pageBuilder: (context, state) {
+                        // final params =
+                        //     GoRouterState.of(context).extra as Map<String, int>;
+                        return const NoTransitionPage(
+                          child: EventCreateScreen(
+                              // eventId: params['eventId']!,
+                              ),
                         );
                       },
                     ),
