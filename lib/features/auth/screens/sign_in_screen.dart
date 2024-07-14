@@ -1,7 +1,7 @@
 import 'package:cinema_booker/router/app_router.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cinema_booker/services/auth_service.dart';
+import 'package:cinema_booker/features/auth/services/auth_service.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:cinema_booker/widgets/text_input.dart';

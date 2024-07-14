@@ -6,13 +6,13 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:cinema_booker/providers/auth_provider.dart';
+import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
 import 'package:cinema_booker/router/app_router.dart';
 import 'package:cinema_booker/api/error_handler.dart';
-import 'package:cinema_booker/models/sign_in_request.dart';
-import 'package:cinema_booker/models/sign_up_request.dart';
-import 'package:cinema_booker/models/sign_in_response.dart';
-import 'package:cinema_booker/models/get_me_response.dart';
+import 'package:cinema_booker/features/auth/data/sign_in_request.dart';
+import 'package:cinema_booker/features/auth/data/sign_up_request.dart';
+import 'package:cinema_booker/features/auth/data/sign_in_response.dart';
+import 'package:cinema_booker/features/auth/data/get_me_response.dart';
 
 class AuthService {
   void signUp({

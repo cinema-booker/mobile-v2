@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:cinema_booker/providers/auth_provider.dart';
+import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
 import 'package:cinema_booker/router/bottom_navigation.dart';
-import 'package:cinema_booker/screens/sign_up_screen.dart';
-import 'package:cinema_booker/screens/sign_in_screen.dart';
-import 'package:cinema_booker/screens/forget_password_screen.dart';
+import 'package:cinema_booker/features/auth/screens/sign_up_screen.dart';
+import 'package:cinema_booker/features/auth/screens/sign_in_screen.dart';
+import 'package:cinema_booker/features/auth/screens/forget_password_screen.dart';
 import 'package:cinema_booker/screens/home_screen.dart';
 import 'package:cinema_booker/screens/profile_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/cinema_create_screen.dart';

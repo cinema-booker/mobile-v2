@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:cinema_booker/providers/auth_user.dart';
+import 'package:cinema_booker/features/auth/providers/auth_user.dart';
 
 class AuthProvider extends ChangeNotifier {
   AuthUser _user = AuthUser.getEmpty();
