@@ -1,4 +1,3 @@
-import 'package:cinema_booker/features/cinema/services/cinema_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinema_booker/theme/theme_color.dart';
@@ -7,6 +6,7 @@ import 'package:cinema_booker/widgets/text_input.dart';
 import 'package:cinema_booker/features/cinema/data/places_autocomplete_prediction.dart';
 import 'package:cinema_booker/features/cinema/data/places_geocoding_response.dart';
 import 'package:cinema_booker/features/cinema/services/places_service.dart';
+import 'package:cinema_booker/features/cinema/services/cinema_service.dart';
 import 'package:cinema_booker/features/cinema/widgets/address_autocomplete.dart';
 
 class CinemaCreateScreen extends StatefulWidget {

@@ -59,6 +59,9 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
       _cinemas = cinemas;
       _page++;
       _isLoading = false;
+      if (cinemas.length < _limit) {
+        _hasMore = false;
+      }
     });
   }
 
@@ -82,6 +85,7 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
     return Scaffold(
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               "Cinema List",
@@ -136,7 +140,9 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
                             ),
                             onTap: () => context.pushNamed(
                               AppRouter.cinemaDetails,
-                              extra: cinema.id,
+                              extra: {
+                                "cinemaId": cinema.id,
+                              },
                             ),
                           );
                         },

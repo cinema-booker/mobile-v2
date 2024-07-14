@@ -12,6 +12,7 @@ import 'package:cinema_booker/screens/profile_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/cinema_list_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/cinema_details_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/cinema_create_screen.dart';
+import 'package:cinema_booker/features/cinema/screens/room_create_screen.dart';
 
 class AppRouter {
   static const String onboarding = '/onboarding';
@@ -24,9 +25,17 @@ class AppRouter {
   static const String cinemaList = '/cinema-list';
   static const String cinemaDetails = '/cinema-details';
   static const String cinemaCreate = '/cinema-create';
+  static const String roomCreate = 'room-create';
 
   List<String> authRoutes = [signIn, signUp, forgetPassword];
-  List<String> privateRoutes = [home, profile, cinemaCreate];
+  List<String> privateRoutes = [
+    home,
+    profile,
+    cinemaList,
+    cinemaDetails,
+    cinemaCreate,
+    // roomCreate,
+  ];
 
   GoRouter goRouter(BuildContext context) {
     return GoRouter(
@@ -122,11 +131,29 @@ class AppRouter {
                   name: cinemaDetails,
                   path: cinemaDetails,
                   pageBuilder: (context, state) {
-                    final cinemaId = GoRouterState.of(context).extra as int;
+                    final params =
+                        GoRouterState.of(context).extra as Map<String, int>;
                     return NoTransitionPage(
-                      child: CinemaDetailsScreen(cinemaId: cinemaId),
+                      child: CinemaDetailsScreen(
+                        cinemaId: params['cinemaId']!,
+                      ),
                     );
                   },
+                  routes: [
+                    GoRoute(
+                      name: roomCreate,
+                      path: roomCreate,
+                      pageBuilder: (context, state) {
+                        final params =
+                            GoRouterState.of(context).extra as Map<String, int>;
+                        return NoTransitionPage(
+                          child: RoomCreateScreen(
+                            cinemaId: params['cinemaId']!,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

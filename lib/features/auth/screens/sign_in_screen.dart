@@ -5,6 +5,7 @@ import 'package:cinema_booker/features/auth/services/auth_service.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:cinema_booker/widgets/text_input.dart';
+import 'package:go_router/go_router.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -69,7 +70,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, AppRouter.signUp);
+                  context.goNamed(AppRouter.signUp);
                 },
                 child: const Text('Sign Up'),
               ),

@@ -1,12 +1,12 @@
+import 'package:cinema_booker/features/cinema/services/room_service.dart';
+import 'package:cinema_booker/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
-import 'package:cinema_booker/features/cinema/widgets/map_view.dart';
 import 'package:cinema_booker/features/cinema/services/cinema_service.dart';
 import 'package:cinema_booker/features/cinema/data/cinema_details_response.dart';
-
-const String mapBoxStyleDarkId = 'mapbox/dark-v11';
+import 'package:go_router/go_router.dart';
 
 class CinemaDetailsScreen extends StatefulWidget {
   final int cinemaId;
@@ -22,12 +22,13 @@ class CinemaDetailsScreen extends StatefulWidget {
 
 class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
   CinemaDetailsResponse? _cinema;
-
   final CinemaService _cinemaService = CinemaService();
+  final RoomService _roomService = RoomService();
 
   @override
   void initState() {
     super.initState();
+
     _fetchCinema();
   }
 
@@ -40,6 +41,42 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
     setState(() {
       _cinema = cinema;
     });
+  }
+
+  void _deleteRoom(int roomId) {
+    _roomService.delete(
+      context: context,
+      cinemaId: widget.cinemaId,
+      roomId: roomId,
+    );
+  }
+
+  void _showConfirmationDialog(BuildContext context, int roomId) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Confirm Deletion'),
+          content: const Text('Are you sure you want to delete this item?'),
+          actions: [
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Delete'),
+              onPressed: () {
+                _deleteRoom(roomId);
+                Navigator.of(dialogContext).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -81,10 +118,10 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
                           color: ThemeColor.white,
                         ),
                       ),
-                      MapView(
-                        latitude: _cinema!.address.latitude,
-                        longitude: _cinema!.address.longitude,
-                      ),
+                      // MapView(
+                      //   latitude: _cinema!.address.latitude,
+                      //   longitude: _cinema!.address.longitude,
+                      // ),
                       const Text(
                         "Rooms",
                         style: TextStyle(
@@ -110,11 +147,25 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
                                 color: ThemeColor.gray,
                               ),
                             ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () => _showConfirmationDialog(
+                                context,
+                                room.id,
+                              ),
+                            ),
                           );
                         },
                       ),
                       ElevatedButton(
-                        onPressed: () => {},
+                        onPressed: () {
+                          context.pushNamed(
+                            AppRouter.roomCreate,
+                            extra: {
+                              "cinemaId": _cinema!.id,
+                            },
+                          );
+                        },
                         child: const Text("Add room"),
                       )
                     ],

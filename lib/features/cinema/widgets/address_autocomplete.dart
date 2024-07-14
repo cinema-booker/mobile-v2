@@ -1,3 +1,4 @@
+import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinema_booker/features/cinema/services/places_service.dart';
@@ -23,7 +24,7 @@ class _AddressAutocompleteState extends State<AddressAutocomplete> {
 
   List<PlacesAutoCompletePrediction> _predictions = [];
 
-  void _autoCompleteAddress(String query) async {
+  Future<void> _getPredictions(String query) async {
     PlacesAutoCompleteResponse response =
         await _placesService.autoComplete(query: query);
     setState(() {
@@ -39,7 +40,7 @@ class _AddressAutocompleteState extends State<AddressAutocomplete> {
         if (textEditingValue.text == '') {
           return const Iterable<PlacesAutoCompletePrediction>.empty();
         }
-        _autoCompleteAddress(textEditingValue.text);
+        _getPredictions(textEditingValue.text);
         return _predictions;
       },
       onSelected: (PlacesAutoCompletePrediction selection) {
@@ -67,6 +68,12 @@ class _AddressAutocompleteState extends State<AddressAutocomplete> {
                 widget.onClear();
               },
             ),
+            hintStyle: const TextStyle(
+              color: ThemeColor.gray,
+            ),
+          ),
+          style: const TextStyle(
+            color: ThemeColor.white,
           ),
           onFieldSubmitted: (String value) {
             onFieldSubmitted();
