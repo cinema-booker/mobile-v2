@@ -127,13 +127,13 @@ class _EventListScreenState extends State<EventListScreen> {
                           return ListTile(
                             leading: const Icon(Icons.theaters),
                             title: Text(
-                              event.movie.title,
+                              "Cinema : ${event.cinema.name}",
                               style: const TextStyle(
                                 color: ThemeColor.white,
                               ),
                             ),
                             subtitle: Text(
-                              event.movie.description,
+                              "Movie : ${event.movie.title}",
                               style: const TextStyle(
                                 color: ThemeColor.white,
                               ),

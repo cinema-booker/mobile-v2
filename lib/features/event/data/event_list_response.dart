@@ -1,19 +1,23 @@
 import 'dart:convert';
 
+import 'package:cinema_booker/features/cinema/data/cinema_list_response.dart';
 import 'package:cinema_booker/features/event/data/event_movie.dart';
 
 class EventListItem {
   final int id;
+  final CinemaListItem cinema;
   final EventMovie movie;
 
   EventListItem({
     required this.id,
+    required this.cinema,
     required this.movie,
   });
 
   factory EventListItem.fromMap(Map<String, dynamic> json) {
     return EventListItem(
       id: json['id'],
+      cinema: CinemaListItem.fromMap(json['cinema']),
       movie: EventMovie.fromMap(json['movie']),
     );
   }

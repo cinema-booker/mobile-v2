@@ -100,6 +100,24 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        "Movie : ${_event!.movie.title}",
+                        style: const TextStyle(
+                          color: ThemeColor.white,
+                        ),
+                      ),
+                      Text(
+                        "Cinema : ${_event!.cinema.name}",
+                        style: const TextStyle(
+                          color: ThemeColor.white,
+                        ),
+                      ),
+                      Text(
+                        "Address : ${_event!.cinema.address.address}",
+                        style: const TextStyle(
+                          color: ThemeColor.white,
+                        ),
+                      ),
                       ListView.builder(
                         shrinkWrap: true,
                         itemCount: _event!.sessions.length,

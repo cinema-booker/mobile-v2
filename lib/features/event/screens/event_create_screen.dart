@@ -1,6 +1,8 @@
+import 'package:cinema_booker/features/event/data/movie_autocomplete_item.dart';
+import 'package:cinema_booker/features/event/services/event_service.dart';
+import 'package:cinema_booker/features/event/widgets/movie_autocomplete.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
-import 'package:cinema_booker/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 
 class EventCreateScreen extends StatefulWidget {
@@ -12,19 +14,17 @@ class EventCreateScreen extends StatefulWidget {
 
 class _EventCreateScreenState extends State<EventCreateScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
+  final EventService _eventService = EventService();
+  MovieAutoCompleteItem? _selectedMovie;
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _descriptionController.dispose();
-
-    super.dispose();
-  }
-
-  void _createEvent() {
-    if (_formKey.currentState!.validate()) {}
+  Future<void> _createEvent() async {
+    if (_selectedMovie != null) {
+      _eventService.create(
+        context: context,
+        cinemaId: 1,
+        movie: _selectedMovie!,
+      );
+    }
   }
 
   @override
@@ -43,10 +43,13 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
                   color: ThemeColor.white,
                 ),
               ),
-              TextInput(
-                hint: "Price",
-                controller: _nameController,
-                keyboardType: TextInputType.number,
+              MovieAutocomplete(
+                onSelected: (movie) {
+                  _selectedMovie = movie;
+                },
+                onClear: () {
+                  _selectedMovie = null;
+                },
               ),
               ElevatedButton(
                 onPressed: _createEvent,
