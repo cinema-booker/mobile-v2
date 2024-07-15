@@ -49,6 +49,10 @@ class BottomNavigation extends StatelessWidget {
             icon: Icon(Icons.calendar_month),
             label: 'Event Create',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'User List',
+          ),
         ],
       ),
     );

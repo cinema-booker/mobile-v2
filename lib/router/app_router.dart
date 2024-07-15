@@ -1,7 +1,11 @@
+import 'package:cinema_booker/features/auth/providers/auth_user.dart';
 import 'package:cinema_booker/features/event/screens/event_create_screen.dart';
 import 'package:cinema_booker/features/event/screens/event_details_screen.dart';
 import 'package:cinema_booker/features/event/screens/event_list_screen.dart';
 import 'package:cinema_booker/features/event/screens/session_create_screen.dart';
+import 'package:cinema_booker/features/user/screens/user_details_screen.dart';
+import 'package:cinema_booker/features/user/screens/user_edit_screen.dart';
+import 'package:cinema_booker/features/user/screens/user_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +16,6 @@ import 'package:cinema_booker/features/auth/screens/sign_up_screen.dart';
 import 'package:cinema_booker/features/auth/screens/sign_in_screen.dart';
 import 'package:cinema_booker/features/auth/screens/forget_password_screen.dart';
 import 'package:cinema_booker/screens/home_screen.dart';
-import 'package:cinema_booker/screens/profile_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/cinema_list_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/cinema_details_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/cinema_create_screen.dart';
@@ -23,8 +26,13 @@ class AppRouter {
   static const String signIn = '/sign-in';
   static const String signUp = '/sign-up';
   static const String forgetPassword = '/forget-password';
+
   static const String home = '/home';
   static const String profile = '/profile';
+
+  static const String userList = '/user-list';
+  static const String userDetails = 'user-details';
+  static const String userEdit = 'user-edit';
 
   static const String cinemaList = '/cinema-list';
   static const String cinemaDetails = '/cinema-details';
@@ -40,6 +48,9 @@ class AppRouter {
   List<String> privateRoutes = [
     home,
     profile,
+    userList,
+    // userDetails,
+    // userEdit,
     cinemaList,
     cinemaDetails,
     cinemaCreate,
@@ -110,9 +121,13 @@ class AppRouter {
                 GoRoute(
                   name: profile,
                   path: profile,
-                  pageBuilder: (context, state) => const NoTransitionPage(
-                    child: ProfileScreen(),
-                  ),
+                  pageBuilder: (context, state) {
+                    AuthUser user =
+                        Provider.of<AuthProvider>(context, listen: false).user;
+                    return NoTransitionPage(
+                      child: UserDetailsScreen(userId: user.id),
+                    );
+                  },
                 ),
               ],
             ),
@@ -183,12 +198,8 @@ class AppRouter {
                       name: eventCreate,
                       path: eventCreate,
                       pageBuilder: (context, state) {
-                        // final params =
-                        //     GoRouterState.of(context).extra as Map<String, int>;
                         return const NoTransitionPage(
-                          child: EventCreateScreen(
-                              // eventId: params['eventId']!,
-                              ),
+                          child: EventCreateScreen(),
                         );
                       },
                     ),
@@ -214,6 +225,45 @@ class AppRouter {
                         return NoTransitionPage(
                           child: SessionCreateScreen(
                             eventId: params['eventId']!,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: userList,
+                  path: userList,
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: UserListScreen(),
+                  ),
+                  routes: [
+                    GoRoute(
+                      name: userDetails,
+                      path: userDetails,
+                      pageBuilder: (context, state) {
+                        final params =
+                            GoRouterState.of(context).extra as Map<String, int>;
+                        return NoTransitionPage(
+                          child: UserDetailsScreen(
+                            userId: params['userId']!,
+                          ),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      name: userEdit,
+                      path: userEdit,
+                      pageBuilder: (context, state) {
+                        final params =
+                            GoRouterState.of(context).extra as Map<String, int>;
+                        return NoTransitionPage(
+                          child: UserEditScreen(
+                            userId: params['userId']!,
                           ),
                         );
                       },
