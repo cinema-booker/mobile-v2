@@ -85,12 +85,14 @@ class AuthService {
             signInResponse.token,
           );
 
-          Provider.of<AuthProvider>(context, listen: false).setUser(
-            signInResponse.id,
-            signInResponse.name,
-            signInResponse.email,
-            signInResponse.role,
-          );
+          // Provider.of<AuthProvider>(context, listen: false).setUser(
+          //   signInResponse.id,
+          //   signInResponse.name,
+          //   signInResponse.email,
+          //   signInResponse.role,
+          // );
+
+          getMe(context: context);
 
           showSnackBarError(context: context, message: 'Sign in successful');
           context.goNamed(AppRouter.home);
@@ -128,6 +130,7 @@ class AuthService {
             getMeResponse.name,
             getMeResponse.email,
             getMeResponse.role,
+            getMeResponse.cinemaId,
           );
         },
       );

@@ -1,7 +1,10 @@
+import 'package:cinema_booker/features/account/screens/profile_screen.dart';
 import 'package:cinema_booker/features/auth/providers/auth_user.dart';
+import 'package:cinema_booker/features/event/screens/event_booking_screen.dart';
 import 'package:cinema_booker/features/event/screens/event_create_screen.dart';
 import 'package:cinema_booker/features/event/screens/event_details_screen.dart';
 import 'package:cinema_booker/features/event/screens/event_list_screen.dart';
+import 'package:cinema_booker/features/event/screens/event_search_screen.dart';
 import 'package:cinema_booker/features/event/screens/session_create_screen.dart';
 import 'package:cinema_booker/features/user/screens/user_details_screen.dart';
 import 'package:cinema_booker/features/user/screens/user_edit_screen.dart';
@@ -39,6 +42,9 @@ class AppRouter {
   static const String cinemaCreate = '/cinema-create';
   static const String roomCreate = 'room-create';
 
+  static const String eventSearch = '/event-search';
+  static const String eventBooking = 'event-booking';
+
   static const String eventList = '/event-list';
   static const String eventCreate = 'event-create';
   static const String eventDetails = 'event-details';
@@ -48,6 +54,8 @@ class AppRouter {
   List<String> privateRoutes = [
     home,
     profile,
+    eventSearch,
+    // eventBooking,
     userList,
     // userDetails,
     // userEdit,
@@ -119,13 +127,39 @@ class AppRouter {
             StatefulShellBranch(
               routes: [
                 GoRoute(
+                  name: eventSearch,
+                  path: eventSearch,
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: EventSearchScreen(),
+                  ),
+                  routes: [
+                    GoRoute(
+                      name: eventBooking,
+                      path: eventBooking,
+                      pageBuilder: (context, state) {
+                        final params =
+                            GoRouterState.of(context).extra as Map<String, int>;
+                        return NoTransitionPage(
+                          child: EventBookingScreen(
+                            eventId: params['eventId']!,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
                   name: profile,
                   path: profile,
                   pageBuilder: (context, state) {
                     AuthUser user =
                         Provider.of<AuthProvider>(context, listen: false).user;
                     return NoTransitionPage(
-                      child: UserDetailsScreen(userId: user.id),
+                      child: ProfileScreen(userId: user.id),
                     );
                   },
                 ),

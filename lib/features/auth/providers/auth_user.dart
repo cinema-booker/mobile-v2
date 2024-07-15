@@ -5,12 +5,14 @@ class AuthUser {
   final String name;
   final String email;
   final String role;
+  final int? cinemaId;
 
   AuthUser({
     required this.id,
     required this.name,
     required this.email,
     required this.role,
+    this.cinemaId,
   });
 
   factory AuthUser.getEmpty() {
@@ -19,6 +21,7 @@ class AuthUser {
       name: '',
       email: '',
       role: '',
+      cinemaId: null,
     );
   }
 
@@ -28,6 +31,7 @@ class AuthUser {
       name: json['name'],
       email: json['email'],
       role: json['role'],
+      cinemaId: json['cinema_id'],
     );
   }
 

@@ -13,12 +13,13 @@ class AuthProvider extends ChangeNotifier {
     return _user.id >= 0;
   }
 
-  void setUser(int id, String name, String email, String role) {
+  void setUser(int id, String name, String email, String role, int? cinemaId) {
     _user = AuthUser(
       id: id,
       name: name,
       email: email,
       role: role,
+      cinemaId: cinemaId,
     );
     notifyListeners();
   }

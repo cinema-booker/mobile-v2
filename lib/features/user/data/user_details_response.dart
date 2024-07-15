@@ -5,12 +5,14 @@ class UserDetailsResponse {
   final String name;
   final String email;
   final String role;
+  final int? cinemaId;
 
   UserDetailsResponse({
     required this.id,
     required this.name,
     required this.email,
     required this.role,
+    this.cinemaId,
   });
 
   factory UserDetailsResponse.fromMap(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class UserDetailsResponse {
       name: json['name'],
       email: json['email'],
       role: json['role'],
+      cinemaId: json['cinema_id'],
     );
   }
 

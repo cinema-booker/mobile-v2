@@ -27,3 +27,7 @@ class EventSession {
   factory EventSession.fromJson(String source) =>
       EventSession.fromMap(json.decode(source));
 }
+
+extension EventSessionPriceInEuro on EventSession {
+  double get priceInEuro => price / 100.0;
+}

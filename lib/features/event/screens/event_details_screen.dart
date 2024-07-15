@@ -1,4 +1,5 @@
 import 'package:cinema_booker/features/event/data/event_details_response.dart';
+import 'package:cinema_booker/features/event/data/event_session.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
 import 'package:cinema_booker/features/event/services/session_service.dart';
 import 'package:cinema_booker/router/app_router.dart';
@@ -118,6 +119,10 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           color: ThemeColor.white,
                         ),
                       ),
+                      // MapView(
+                      //   latitude: _event!.cinema.address.latitude,
+                      //   longitude: _event!.cinema.address.longitude,
+                      // ),
                       ListView.builder(
                         shrinkWrap: true,
                         itemCount: _event!.sessions.length,
@@ -131,7 +136,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                               ),
                             ),
                             subtitle: Text(
-                              "${session.room.number} - ${session.price.toString()} €",
+                              "${session.room.number} - ${session.priceInEuro.toString()} €",
                               style: const TextStyle(
                                 color: ThemeColor.gray,
                               ),
@@ -156,6 +161,17 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           );
                         },
                         child: const Text("Add session"),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.pushNamed(
+                            AppRouter.eventBooking,
+                            extra: {
+                              "eventId": _event!.id,
+                            },
+                          );
+                        },
+                        child: const Text("Book event"),
                       )
                     ],
                   ),

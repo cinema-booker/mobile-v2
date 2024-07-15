@@ -36,6 +36,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: ThemeColor.white,
               ),
             ),
+            Text(
+              "Name : ${user.name}",
+              style: const TextStyle(
+                color: ThemeColor.white,
+              ),
+            ),
+            Text(
+              "Email : ${user.email}",
+              style: const TextStyle(
+                color: ThemeColor.white,
+              ),
+            ),
+            Text(
+              "Role : ${user.role}",
+              style: const TextStyle(
+                color: ThemeColor.white,
+              ),
+            ),
+            Text(
+              "Cinema ID : ${user.cinemaId ?? 'N/A'}",
+              style: const TextStyle(
+                color: ThemeColor.white,
+              ),
+            ),
           ],
         ),
       ),
