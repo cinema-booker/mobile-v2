@@ -1,5 +1,5 @@
+import 'package:cinema_booker/features/event/data/booking_session.dart';
 import 'package:cinema_booker/features/event/data/event_details_response.dart';
-import 'package:cinema_booker/features/event/data/event_session.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
 import 'package:cinema_booker/features/event/services/session_service.dart';
 import 'package:cinema_booker/router/app_router.dart';

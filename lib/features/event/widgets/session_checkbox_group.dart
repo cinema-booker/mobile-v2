@@ -1,10 +1,10 @@
-import 'package:cinema_booker/features/event/data/event_session.dart';
+import 'package:cinema_booker/features/event/data/booking_session.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:flutter/material.dart';
 
 class SessionCheckboxGroup extends StatefulWidget {
-  final List<EventSession> sessions;
-  final ValueChanged<EventSession> onChanged;
+  final List<BookingSession> sessions;
+  final ValueChanged<BookingSession> onChanged;
 
   const SessionCheckboxGroup({
     super.key,
@@ -17,7 +17,7 @@ class SessionCheckboxGroup extends StatefulWidget {
 }
 
 class _SessionCheckboxGroupState extends State<SessionCheckboxGroup> {
-  EventSession? _selectedSession;
+  BookingSession? _selectedSession;
 
   @override
   Widget build(BuildContext context) {

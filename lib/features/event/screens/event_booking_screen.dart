@@ -1,5 +1,6 @@
+import 'package:cinema_booker/features/event/data/booking_session.dart';
 import 'package:cinema_booker/features/event/data/event_details_response.dart';
-import 'package:cinema_booker/features/event/data/event_session.dart';
+import 'package:cinema_booker/features/event/services/booking_service.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
 import 'package:cinema_booker/features/event/widgets/seat_checkbox_group.dart';
 import 'package:cinema_booker/features/event/widgets/session_checkbox_group.dart';
@@ -23,8 +24,9 @@ class EventBookingScreen extends StatefulWidget {
 class _EventBookingScreenState extends State<EventBookingScreen> {
   EventDetailsResponse? _event;
   final EventService _eventService = EventService();
+  final BookingService _bookingService = BookingService();
 
-  EventSession? _selectedSession;
+  BookingSession? _selectedSession;
   List<String> _selectedSeats = [];
 
   @override
@@ -43,6 +45,17 @@ class _EventBookingScreenState extends State<EventBookingScreen> {
     setState(() {
       _event = event;
     });
+  }
+
+  void _bookEvent() {
+    if (_selectedSession == null || _selectedSeats.isEmpty) {
+      return;
+    }
+    _bookingService.create(
+      context: context,
+      sessionId: _selectedSession!.id,
+      seats: _selectedSeats,
+    );
   }
 
   @override
@@ -78,6 +91,7 @@ class _EventBookingScreenState extends State<EventBookingScreen> {
                         _selectedSession == null
                             ? const SizedBox()
                             : SeatCheckboxGroup(
+                                bookedSeats: _selectedSession!.seats,
                                 room: _selectedSession!.room,
                                 onChanged: (seats) {
                                   setState(() {
@@ -93,7 +107,7 @@ class _EventBookingScreenState extends State<EventBookingScreen> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: _bookEvent,
                           child: const Text('Book'),
                         ),
                       ],

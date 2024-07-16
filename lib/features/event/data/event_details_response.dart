@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:cinema_booker/features/cinema/data/cinema_list_response.dart';
+import 'package:cinema_booker/features/event/data/booking_session.dart';
 import 'package:cinema_booker/features/event/data/event_movie.dart';
-import 'package:cinema_booker/features/event/data/event_session.dart';
 
 class EventDetailsResponse {
   final int id;
   final CinemaListItem cinema;
   final EventMovie movie;
-  final List<EventSession> sessions;
+  final List<BookingSession> sessions;
 
   EventDetailsResponse({
     required this.id,
@@ -22,8 +22,8 @@ class EventDetailsResponse {
       id: json['id'],
       cinema: CinemaListItem.fromMap(json['cinema']),
       movie: EventMovie.fromMap(json['movie']),
-      sessions: List<EventSession>.from(json['sessions'].map(
-        (x) => EventSession.fromMap(x),
+      sessions: List<BookingSession>.from(json['sessions'].map(
+        (x) => BookingSession.fromMap(x),
       )),
     );
   }

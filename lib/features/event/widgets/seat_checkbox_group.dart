@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class SeatCheckboxGroup extends StatefulWidget {
   final CinemaRoom room;
   final ValueChanged<List<String>> onChanged;
+  final List<String> bookedSeats;
 
   const SeatCheckboxGroup({
     super.key,
     required this.room,
     required this.onChanged,
+    required this.bookedSeats,
   });
 
   @override
@@ -49,30 +51,36 @@ class _SeatCheckboxGroupState extends State<SeatCheckboxGroup> {
   Widget build(BuildContext context) {
     return Column(
       children: generateSeats(widget.room.type).map((seat) {
-        return TextButton(
-          onPressed: () {
-            setState(() {
-              if (_selectedSeats.contains(seat)) {
-                _selectedSeats.remove(seat);
-              } else {
-                _selectedSeats.add(seat);
+        return Opacity(
+          opacity: widget.bookedSeats.contains(seat) ? 0.5 : 1.0,
+          child: TextButton(
+            onPressed: () {
+              if (widget.bookedSeats.contains(seat)) {
+                return;
               }
-            });
-            widget.onChanged(_selectedSeats);
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
-              _selectedSeats.contains(seat)
-                  ? ThemeColor.white
-                  : ThemeColor.brown100,
+              setState(() {
+                if (_selectedSeats.contains(seat)) {
+                  _selectedSeats.remove(seat);
+                } else {
+                  _selectedSeats.add(seat);
+                }
+              });
+              widget.onChanged(_selectedSeats);
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                _selectedSeats.contains(seat)
+                    ? ThemeColor.white
+                    : ThemeColor.brown100,
+              ),
             ),
-          ),
-          child: Text(
-            seat,
-            style: TextStyle(
-              color: _selectedSeats.contains(seat)
-                  ? ThemeColor.black
-                  : ThemeColor.white,
+            child: Text(
+              seat,
+              style: TextStyle(
+                color: _selectedSeats.contains(seat)
+                    ? ThemeColor.black
+                    : ThemeColor.white,
+              ),
             ),
           ),
         );
