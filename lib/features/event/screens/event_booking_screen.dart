@@ -1,7 +1,9 @@
+import 'package:cinema_booker/features/event/data/booking_create_response.dart';
 import 'package:cinema_booker/features/event/data/booking_session.dart';
 import 'package:cinema_booker/features/event/data/event_details_response.dart';
 import 'package:cinema_booker/features/event/services/booking_service.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
+import 'package:cinema_booker/features/event/services/stripe_service.dart';
 import 'package:cinema_booker/features/event/widgets/seat_checkbox_group.dart';
 import 'package:cinema_booker/features/event/widgets/session_checkbox_group.dart';
 import 'package:flutter/material.dart';
@@ -47,15 +49,37 @@ class _EventBookingScreenState extends State<EventBookingScreen> {
     });
   }
 
-  void _bookEvent() {
+  Future<void> _bookEvent(BuildContext context) async {
     if (_selectedSession == null || _selectedSeats.isEmpty) {
       return;
     }
-    _bookingService.create(
+    BookingCreateResponse? bookingCreateResponse = await _bookingService.create(
       context: context,
       sessionId: _selectedSession!.id,
       seats: _selectedSeats,
     );
+
+    if (bookingCreateResponse != null) {
+      await StripeService.stripePaymentCheckout(
+        bookingCreateResponse.sessionId,
+        bookingCreateResponse.seats,
+        bookingCreateResponse.price,
+        // ignore: use_build_context_synchronously
+        context,
+        true,
+        onSuccess: () {
+          print('Success');
+        },
+        onCancel: () {
+          print('Cancel');
+        },
+        onError: (error) {
+          print(
+            'Error : ${error.toString()}',
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -107,8 +131,16 @@ class _EventBookingScreenState extends State<EventBookingScreen> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _bookEvent,
+                          onPressed: () {
+                            _bookEvent(context);
+                          },
                           child: const Text('Book'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            var items = ["S01", "S02"];
+                          },
+                          child: const Text('Pay'),
                         ),
                       ],
                     ),

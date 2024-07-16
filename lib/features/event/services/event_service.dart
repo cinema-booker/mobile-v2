@@ -16,13 +16,16 @@ class EventService {
     required BuildContext context,
     int page = 1,
     int limit = 10,
+    String search = '',
   }) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       String? token = preferences.getString('cinema-booker-token');
 
       http.Response response = await http.get(
-        Uri.parse('http://10.0.2.2:3000/events?page=$page&limit=$limit'),
+        Uri.parse(
+          'http://10.0.2.2:3000/events?page=$page&limit=$limit&search=$search',
+        ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',

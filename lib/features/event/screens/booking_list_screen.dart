@@ -1,6 +1,8 @@
 import 'package:cinema_booker/features/event/data/booking_list_response.dart';
 import 'package:cinema_booker/features/event/services/booking_service.dart';
 import 'package:cinema_booker/router/app_router.dart';
+import 'package:cinema_booker/widgets/infinite_list.dart';
+import 'package:cinema_booker/widgets/search_input.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinema_booker/theme/theme_color.dart';
@@ -15,68 +17,15 @@ class BookingListScreen extends StatefulWidget {
 }
 
 class _BookingListScreenState extends State<BookingListScreen> {
-  List<BookingListItem> _bookings = [];
-  int _page = 1;
-  bool _hasMore = true;
-  bool _isLoading = false;
+  Key _key = UniqueKey();
+  String _search = '';
 
   final BookingService _bookingService = BookingService();
-  final ScrollController _scrollController = ScrollController();
-  final int _limit = 10;
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        _refetchEvents();
-      }
-    });
-    _fetchEvents();
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _fetchEvents() async {
-    if (_isLoading) return;
-    _isLoading = true;
-
+  void _updateSearch(String search) {
     setState(() {
-      _bookings = [];
-      _page = 1;
-    });
-    List<BookingListItem> bookings = await _bookingService.list(
-      context: context,
-      page: 1,
-      limit: _limit,
-    );
-    setState(() {
-      _bookings = bookings;
-      _page++;
-      _isLoading = false;
-      if (bookings.length < _limit) {
-        _hasMore = false;
-      }
-    });
-  }
-
-  void _refetchEvents() async {
-    List<BookingListItem> bookings = await _bookingService.list(
-      context: context,
-      page: _page,
-      limit: _limit,
-    );
-    setState(() {
-      _bookings.addAll(bookings);
-      _page++;
-      if (bookings.length < _limit) {
-        _hasMore = false;
-      }
+      _search = search;
+      _key = UniqueKey();
     });
   }
 
@@ -94,61 +43,47 @@ class _BookingListScreenState extends State<BookingListScreen> {
                 color: ThemeColor.white,
               ),
             ),
+            SearchInput(
+              onChanged: _updateSearch,
+            ),
             Expanded(
-              child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : RefreshIndicator(
-                      onRefresh: () async {
-                        _fetchEvents();
-                      },
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: _bookings.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == _bookings.length) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 16,
-                              ),
-                              child: Center(
-                                child: _hasMore
-                                    ? const CircularProgressIndicator()
-                                    : const Text(
-                                        'No more data to load',
-                                        style: TextStyle(
-                                          color: ThemeColor.white,
-                                        ),
-                                      ),
-                              ),
-                            );
-                          }
-
-                          BookingListItem booking = _bookings[index];
-                          return ListTile(
-                            leading: const Icon(Icons.theaters),
-                            title: Text(
-                              "Cinema : ${booking.session.event.cinema.name} - Movie : ${booking.session.event.movie.title}",
-                              style: const TextStyle(
-                                color: ThemeColor.white,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "Room : ${booking.session.room.number} - Seat : ${booking.place}",
-                              style: const TextStyle(
-                                color: ThemeColor.white,
-                              ),
-                            ),
-                            onTap: () => context.pushNamed(
-                              AppRouter.bookingDetails,
-                              extra: {
-                                "bookingId": booking.id,
-                              },
-                            ),
-                          );
-                        },
+              child: InfiniteList<BookingListItem>(
+                key: _key,
+                builder: (context, item) {
+                  BookingListItem booking = item;
+                  return ListTile(
+                    leading: const Icon(Icons.theaters),
+                    title: Text(
+                      "Cinema : ${booking.session.event.cinema.name} - Movie : ${booking.session.event.movie.title}",
+                      style: const TextStyle(
+                        color: ThemeColor.white,
                       ),
                     ),
-            ),
+                    subtitle: Text(
+                      "Room : ${booking.session.room.number} - Seat : ${booking.place}",
+                      style: const TextStyle(
+                        color: ThemeColor.white,
+                      ),
+                    ),
+                    onTap: () => context.pushNamed(
+                      AppRouter.bookingDetails,
+                      extra: {
+                        "bookingId": booking.id,
+                      },
+                    ),
+                  );
+                },
+                fetch: (BuildContext context, int page, int limit) async {
+                  List<BookingListItem> bookings = await _bookingService.list(
+                    context: context,
+                    page: page,
+                    limit: limit,
+                    search: _search,
+                  );
+                  return bookings;
+                },
+              ),
+            )
           ],
         ),
       ),

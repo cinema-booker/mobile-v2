@@ -1,5 +1,6 @@
 import 'package:cinema_booker/features/account/screens/profile_screen.dart';
 import 'package:cinema_booker/features/auth/providers/auth_user.dart';
+import 'package:cinema_booker/features/cinema/screens/cinema_list_screen.dart';
 import 'package:cinema_booker/features/event/screens/booking_details_screen.dart';
 import 'package:cinema_booker/features/event/screens/booking_list_screen.dart';
 import 'package:cinema_booker/features/event/screens/event_booking_screen.dart';
@@ -21,7 +22,6 @@ import 'package:cinema_booker/features/auth/screens/sign_up_screen.dart';
 import 'package:cinema_booker/features/auth/screens/sign_in_screen.dart';
 import 'package:cinema_booker/features/auth/screens/forget_password_screen.dart';
 import 'package:cinema_booker/screens/home_screen.dart';
-import 'package:cinema_booker/features/cinema/screens/cinema_list_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/cinema_details_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/cinema_create_screen.dart';
 import 'package:cinema_booker/features/cinema/screens/room_create_screen.dart';
