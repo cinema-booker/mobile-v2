@@ -1,5 +1,7 @@
 import 'package:cinema_booker/features/account/screens/profile_screen.dart';
 import 'package:cinema_booker/features/auth/providers/auth_user.dart';
+import 'package:cinema_booker/features/event/screens/booking_details_screen.dart';
+import 'package:cinema_booker/features/event/screens/booking_list_screen.dart';
 import 'package:cinema_booker/features/event/screens/event_booking_screen.dart';
 import 'package:cinema_booker/features/event/screens/event_create_screen.dart';
 import 'package:cinema_booker/features/event/screens/event_details_screen.dart';
@@ -50,6 +52,9 @@ class AppRouter {
   static const String eventDetails = 'event-details';
   static const String sessionCreate = 'session-create';
 
+  static const String bookingList = '/booking-list';
+  static const String bookingDetails = 'booking-details';
+
   List<String> authRoutes = [signIn, signUp, forgetPassword];
   List<String> privateRoutes = [
     home,
@@ -67,6 +72,8 @@ class AppRouter {
     // eventCreate,
     // eventDetails,
     // sessionCreate,
+    bookingList,
+    // bookingDetails,
   ];
 
   GoRouter goRouter(BuildContext context) {
@@ -304,6 +311,31 @@ class AppRouter {
                     ),
                   ],
                 ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                    name: bookingList,
+                    path: bookingList,
+                    pageBuilder: (context, state) => const NoTransitionPage(
+                          child: BookingListScreen(),
+                        ),
+                    routes: [
+                      GoRoute(
+                        name: bookingDetails,
+                        path: bookingDetails,
+                        pageBuilder: (context, state) {
+                          final params = GoRouterState.of(context).extra
+                              as Map<String, int>;
+                          return NoTransitionPage(
+                            child: BookingDetailsScreen(
+                              bookingId: params['bookingId']!,
+                            ),
+                          );
+                        },
+                      ),
+                    ]),
               ],
             ),
           ],

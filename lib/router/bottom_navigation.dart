@@ -57,6 +57,10 @@ class BottomNavigation extends StatelessWidget {
             icon: Icon(Icons.people),
             label: 'User List',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.airplane_ticket),
+            label: 'Booking List',
+          ),
         ],
       ),
     );
