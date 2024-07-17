@@ -61,7 +61,7 @@ class _BookingCreateScreenState extends State<BookingCreateScreen> {
         seats: _selectedSeats,
       );
 
-      if (response.data != null && response.error != null) {
+      if (response.data != null && response.error == null) {
         await StripeService.stripePaymentCheckout(
           response.data!.sessionId,
           response.data!.seats,
