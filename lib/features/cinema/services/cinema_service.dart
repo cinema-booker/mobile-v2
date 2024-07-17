@@ -1,6 +1,7 @@
 import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/api/api_service.dart';
 import 'package:cinema_booker/features/cinema/data/cinema_details_response.dart';
+import 'package:cinema_booker/features/cinema/data/cinema_edit_request.dart';
 import 'package:cinema_booker/features/cinema/data/cinema_list_response.dart';
 import 'package:cinema_booker/features/cinema/data/cinema_create_request.dart';
 
@@ -58,6 +59,23 @@ class CinemaService {
 
     return apiService.post(
       "cinemas",
+      body.toJson(),
+      (_) => null,
+    );
+  }
+
+  Future<ApiResponse<Null>> editV2({
+    required int cinemaId,
+    required String name,
+    required String description,
+  }) async {
+    CinemaEditRequest body = CinemaEditRequest(
+      name: name,
+      description: description,
+    );
+
+    return apiService.patch(
+      "cinemas/$cinemaId",
       body.toJson(),
       (_) => null,
     );

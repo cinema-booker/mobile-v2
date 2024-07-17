@@ -1,17 +1,20 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/features/auth/data/get_me_response.dart';
 import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
+import 'package:cinema_booker/router/admin_routes.dart';
+import 'package:cinema_booker/router/app_router_v2.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinema_booker/features/auth/services/auth_service.dart';
-import 'package:cinema_booker/router/app_router.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
-  final AppRouter router;
+  final AppRouterV2 router;
 
   const App({
     super.key,
@@ -36,7 +39,6 @@ class _AppState extends State<App> {
     ApiResponse<GetMeResponse> response = await _authService.meV2();
 
     if (response.error != null) {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response.error!),
@@ -44,7 +46,6 @@ class _AppState extends State<App> {
       );
     } else if (response.data != null) {
       GetMeResponse me = response.data!;
-      // ignore: use_build_context_synchronously
       Provider.of<AuthProvider>(context, listen: false).setUser(
         me.id,
         me.name,
@@ -52,8 +53,7 @@ class _AppState extends State<App> {
         me.role,
         me.cinemaId,
       );
-      // ignore: use_build_context_synchronously
-      context.goNamed(AppRouter.home);
+      context.go(AdminRoutes.adminDashboard);
     }
   }
 
@@ -71,6 +71,14 @@ class _AppState extends State<App> {
           unselectedItemColor: ThemeColor.gray,
           showSelectedLabels: false,
           showUnselectedLabels: false,
+        ),
+        // TextFormField
+        inputDecorationTheme: const InputDecorationTheme(
+          filled: true,
+          fillColor: ThemeColor.brown200,
+          hintStyle: TextStyle(
+            color: ThemeColor.gray,
+          ),
         ),
       ),
     );

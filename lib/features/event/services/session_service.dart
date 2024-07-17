@@ -18,7 +18,7 @@ class SessionService {
     );
 
     return apiService.post(
-      "bookings",
+      "events/$eventId/sessions",
       body.toJson(),
       (_) => null,
     );

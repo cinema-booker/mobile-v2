@@ -1,4 +1,7 @@
 import 'package:go_router/go_router.dart';
+
+import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
+import 'package:cinema_booker/features/auth/providers/auth_user.dart';
 import 'package:cinema_booker/router/admin_bottom_navigation.dart';
 
 import 'package:cinema_booker/screens/admin/dashboard/dashboard_screen.dart';
@@ -17,17 +20,15 @@ import 'package:cinema_booker/screens/admin/cinema/cinema_details_screen.dart';
 import 'package:cinema_booker/screens/admin/cinema/cinema_edit_screen.dart';
 import 'package:cinema_booker/screens/admin/cinema/cinema_list_screen.dart';
 import 'package:cinema_booker/screens/admin/cinema/_room_create_screen.dart';
-import 'package:cinema_booker/screens/admin/cinema/_room_edit_screen.dart';
 
 import 'package:cinema_booker/screens/admin/event/event_details_screen.dart';
 import 'package:cinema_booker/screens/admin/event/event_list_screen.dart';
-import 'package:cinema_booker/screens/admin/event/event_edit_screen.dart';
 import 'package:cinema_booker/screens/admin/event/event_create_screen.dart';
 import 'package:cinema_booker/screens/admin/event/_session_create_screen.dart';
-import 'package:cinema_booker/screens/admin/event/_session_edit_screen.dart';
 
 import 'package:cinema_booker/screens/admin/booking/booking_details_screen.dart';
 import 'package:cinema_booker/screens/admin/booking/booking_list_screen.dart';
+import 'package:provider/provider.dart';
 
 class AdminRoutes {
   static const String adminDashboard = '/admin/dashboard';
@@ -49,18 +50,13 @@ class AdminRoutes {
   static const String adminCinemaEdit = '$adminCinema/edit'; // not implemented
   static const String adminCinemaCreate =
       '$adminCinema/create'; // not implemented
-
-  static const String adminCinemaRoomEdit = '$adminCinema/room/edit';
   static const String adminCinemaRoomCreate = '$adminCinema/room/create';
 
   static const String adminEvent = '/admin/event';
   static const String adminEventList = '$adminEvent/list';
   static const String adminEventDetails = '$adminEvent/details';
-  static const String adminEventEdit = '$adminEvent/edit'; // not implemented
   static const String adminEventCreate =
       '$adminEvent/create'; // not implemented
-
-  static const String adminEventSessionEdit = '$adminEvent/session/edit';
   static const String adminEventSessionCreate = '$adminEvent/session/create';
 
   static const String adminBooking = '/admin/booking';
@@ -87,28 +83,6 @@ class AdminRouter {
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: AdminRoutes.adminAccountDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: AccountDetailsScreen(),
-            ),
-          ),
-          GoRoute(
-            path: AdminRoutes.adminAccountEdit,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: AccountEditScreen(),
-            ),
-          ),
-          GoRoute(
-            path: AdminRoutes.adminPasswordEdit,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: PasswordEditScreen(),
-            ),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
             path: AdminRoutes.adminUserList,
             pageBuilder: (context, state) => const NoTransitionPage(
               child: UserListScreen(),
@@ -116,15 +90,27 @@ class AdminRouter {
           ),
           GoRoute(
             path: AdminRoutes.adminUserDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: UserDetailsScreen(),
-            ),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: UserDetailsScreen(
+                  userId: params['userId']!,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: AdminRoutes.adminUserEdit,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: UserEditScreen(),
-            ),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: UserEditScreen(
+                  userId: params['userId']!,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: AdminRoutes.adminUserCreate,
@@ -144,29 +130,45 @@ class AdminRouter {
           ),
           GoRoute(
             path: AdminRoutes.adminCinemaDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CinemaDetailsScreen(),
-            ),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: CinemaDetailsScreen(
+                  cinemaId: params["cinemaId"]!,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: AdminRoutes.adminCinemaEdit,
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: CinemaEditScreen(
+                  cinemaId: params["cinemaId"]!,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: AdminRoutes.adminCinemaCreate,
             pageBuilder: (context, state) => const NoTransitionPage(
               child: CinemaCreateScreen(),
             ),
           ),
           GoRoute(
-            path: AdminRoutes.adminCinemaCreate,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CinemaEditScreen(),
-            ),
-          ),
-          GoRoute(
             path: AdminRoutes.adminCinemaRoomCreate,
-            builder: (context, state) => const RoomCreateScreen(),
-          ),
-          GoRoute(
-            path: AdminRoutes.adminCinemaRoomEdit,
-            builder: (context, state) => const RoomEditScreen(),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: RoomCreateScreen(
+                  cinemaId: params["cinemaId"]!,
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -180,9 +182,15 @@ class AdminRouter {
           ),
           GoRoute(
             path: AdminRoutes.adminEventDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: EventDetailsScreen(),
-            ),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: EventDetailsScreen(
+                  eventId: params['eventId']!,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: AdminRoutes.adminEventCreate,
@@ -191,16 +199,16 @@ class AdminRouter {
             ),
           ),
           GoRoute(
-            path: AdminRoutes.adminEventEdit,
-            builder: (context, state) => const EventEditScreen(),
-          ),
-          GoRoute(
             path: AdminRoutes.adminEventSessionCreate,
-            builder: (context, state) => const SessionCreateScreen(),
-          ),
-          GoRoute(
-            path: AdminRoutes.adminEventSessionEdit,
-            builder: (context, state) => const SessionEditScreen(),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: SessionCreateScreen(
+                  eventId: params['eventId']!,
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -214,12 +222,58 @@ class AdminRouter {
           ),
           GoRoute(
             path: AdminRoutes.adminBookingDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: BookingDetailsScreen(),
-            ),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: BookingDetailsScreen(
+                  bookingId: params['bookingId']!,
+                ),
+              );
+            },
           ),
         ],
       ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: AdminRoutes.adminAccountDetails,
+            pageBuilder: (context, state) {
+              AuthUser user =
+                  Provider.of<AuthProvider>(context, listen: false).user;
+              return NoTransitionPage(
+                child: AccountDetailsScreen(
+                  userId: user.id,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: AdminRoutes.adminAccountEdit,
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: AccountEditScreen(
+                  userId: params['userId']!,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: AdminRoutes.adminPasswordEdit,
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: PasswordEditScreen(
+                  userId: params['userId']!,
+                ),
+              );
+            },
+          ),
+        ],
+      )
     ],
   );
 }

@@ -30,16 +30,16 @@ class ManagerBottomNavigation extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.movie),
-            label: 'Cinemas',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.star),
             label: 'Events',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.airplane_ticket),
             label: 'Bookings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'My Cinema',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

@@ -1,6 +1,7 @@
 import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/api/api_service.dart';
 import 'package:cinema_booker/features/user/data/user_details_response.dart';
+import 'package:cinema_booker/features/user/data/user_edit_password_request.dart';
 import 'package:cinema_booker/features/user/data/user_edit_request.dart';
 import 'package:cinema_booker/features/user/data/user_list_response.dart';
 
@@ -50,6 +51,23 @@ class UserService {
 
     return apiService.patch(
       "users/$userId",
+      body.toJson(),
+      (_) => null,
+    );
+  }
+
+  Future<ApiResponse<Null>> editPasswordV2({
+    required int userId,
+    required String password,
+    required String newPassword,
+  }) async {
+    UserEditPasswordRequest body = UserEditPasswordRequest(
+      password: password,
+      newPassword: newPassword,
+    );
+
+    return apiService.patch(
+      "users/$userId/password",
       body.toJson(),
       (_) => null,
     );

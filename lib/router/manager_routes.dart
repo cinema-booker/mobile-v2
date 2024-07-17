@@ -1,3 +1,5 @@
+import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
+import 'package:cinema_booker/features/auth/providers/auth_user.dart';
 import 'package:cinema_booker/router/manager_bottom_navigation.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,20 +13,18 @@ import 'package:cinema_booker/screens/manager/cinema/cinema_create_screen.dart';
 import 'package:cinema_booker/screens/manager/cinema/cinema_details_screen.dart';
 import 'package:cinema_booker/screens/manager/cinema/cinema_edit_screen.dart';
 import 'package:cinema_booker/screens/manager/cinema/_room_create_screen.dart';
-import 'package:cinema_booker/screens/manager/cinema/_room_edit_screen.dart';
 
 import 'package:cinema_booker/screens/manager/event/event_details_screen.dart';
 import 'package:cinema_booker/screens/manager/event/event_list_screen.dart';
-import 'package:cinema_booker/screens/manager/event/event_edit_screen.dart';
 import 'package:cinema_booker/screens/manager/event/event_create_screen.dart';
 import 'package:cinema_booker/screens/manager/event/_session_create_screen.dart';
-import 'package:cinema_booker/screens/manager/event/_session_edit_screen.dart';
 
 import 'package:cinema_booker/screens/manager/booking/booking_details_screen.dart';
 import 'package:cinema_booker/screens/manager/booking/booking_list_screen.dart';
+import 'package:provider/provider.dart';
 
 class ManagerRoutes {
-  static const String managerDashboard = '/manager/account';
+  static const String managerDashboard = '/manager/dashboard';
 
   static const String managerAccount = '/manager/account';
   static const String managerAccountDetails = '$managerAccount/details';
@@ -75,58 +75,6 @@ class ManagerRouter {
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: ManagerRoutes.managerAccountDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: AccountDetailsScreen(),
-            ),
-          ),
-          GoRoute(
-            path: ManagerRoutes.managerAccountEdit,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: AccountEditScreen(),
-            ),
-          ),
-          GoRoute(
-            path: ManagerRoutes.managerPasswordEdit,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: PasswordEditScreen(),
-            ),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: ManagerRoutes.managerCinemaDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CinemaDetailsScreen(),
-            ),
-          ),
-          GoRoute(
-            path: ManagerRoutes.managerCinemaEdit,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CinemaCreateScreen(),
-            ),
-          ),
-          GoRoute(
-            path: ManagerRoutes.managerCinemaCreate,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CinemaEditScreen(),
-            ),
-          ),
-          GoRoute(
-            path: ManagerRoutes.managerCinemaRoomCreate,
-            builder: (context, state) => const RoomCreateScreen(),
-          ),
-          GoRoute(
-            path: ManagerRoutes.managerCinemaRoomEdit,
-            builder: (context, state) => const RoomEditScreen(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
             path: ManagerRoutes.managerEventList,
             pageBuilder: (context, state) => const NoTransitionPage(
               child: EventListScreen(),
@@ -134,27 +82,42 @@ class ManagerRouter {
           ),
           GoRoute(
             path: ManagerRoutes.managerEventDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: EventDetailsScreen(),
-            ),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: EventDetailsScreen(
+                  eventId: params['eventId']!,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: ManagerRoutes.managerEventCreate,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: EventCreateScreen(),
-            ),
-          ),
-          GoRoute(
-            path: ManagerRoutes.managerEventEdit,
-            builder: (context, state) => const EventEditScreen(),
+            pageBuilder: (context, state) {
+              AuthUser user =
+                  Provider.of<AuthProvider>(context, listen: false).user;
+              return NoTransitionPage(
+                child: EventCreateScreen(
+                  cinemaId: user.cinemaId!,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: ManagerRoutes.managerEventSessionCreate,
-            builder: (context, state) => const SessionCreateScreen(),
-          ),
-          GoRoute(
-            path: ManagerRoutes.managerEventSessionEdit,
-            builder: (context, state) => const SessionEditScreen(),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              AuthUser user =
+                  Provider.of<AuthProvider>(context, listen: false).user;
+              return NoTransitionPage(
+                child: SessionCreateScreen(
+                  eventId: params['eventId']!,
+                  cinemaId: user.cinemaId!,
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -168,9 +131,101 @@ class ManagerRouter {
           ),
           GoRoute(
             path: ManagerRoutes.managerBookingDetails,
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: BookingDetailsScreen(
+                  bookingId: params['bookingId']!,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: ManagerRoutes.managerCinemaDetails,
+            pageBuilder: (context, state) {
+              AuthUser user =
+                  Provider.of<AuthProvider>(context, listen: false).user;
+              return NoTransitionPage(
+                child: CinemaDetailsScreen(
+                  cinemaId: user.cinemaId!,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: ManagerRoutes.managerCinemaEdit,
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: CinemaEditScreen(
+                  cinemaId: params["cinemaId"]!,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: ManagerRoutes.managerCinemaCreate,
             pageBuilder: (context, state) => const NoTransitionPage(
-              child: BookingDetailsScreen(),
+              child: CinemaCreateScreen(),
             ),
+          ),
+          GoRoute(
+            path: ManagerRoutes.managerCinemaRoomCreate,
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: RoomCreateScreen(
+                  cinemaId: params["cinemaId"]!,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: ManagerRoutes.managerAccountDetails,
+            pageBuilder: (context, state) {
+              AuthUser user =
+                  Provider.of<AuthProvider>(context, listen: false).user;
+              return NoTransitionPage(
+                child: AccountDetailsScreen(
+                  userId: user.id,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: ManagerRoutes.managerAccountEdit,
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: AccountEditScreen(
+                  userId: params['userId']!,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: ManagerRoutes.managerPasswordEdit,
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: PasswordEditScreen(
+                  userId: params['userId']!,
+                ),
+              );
+            },
           ),
         ],
       ),
