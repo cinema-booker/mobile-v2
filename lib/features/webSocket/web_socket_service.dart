@@ -1,4 +1,5 @@
 
+import 'package:cinema_booker/api/api_constants.dart';
 import 'package:cinema_booker/features/notification/notification_service.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -7,7 +8,7 @@ class WebSocketService {
   WebSocketChannel? _channel;
 
   void connectWebSocket(int managerID) {
-    final url = 'ws://10.0.2.2:3000/ws?managerID=$managerID';
+    final url = 'ws://${ApiConstants.apiBaseUrl}/ws?managerID=$managerID';
     try {
       _channel = WebSocketChannel.connect(
         Uri.parse(url),
