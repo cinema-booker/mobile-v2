@@ -10,7 +10,7 @@ class ApiService {
   Future<ApiResponse<T>> get<T>(
     String url,
     Map<String, String>? queryParams,
-    T Function(Map<String, dynamic>) fromJson,
+    T Function(dynamic) fromJson,
   ) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -28,8 +28,7 @@ class ApiService {
 
       // Success case
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        final jsonReponse = json.decode(response.body);
-        return ApiResponse<T>(data: fromJson(jsonReponse));
+        return ApiResponse<T>(data: fromJson(response.body));
       }
       // Failure case
       return ApiResponse(error: response.body);
@@ -42,7 +41,7 @@ class ApiService {
   Future<ApiResponse<T>> post<T>(
     String url,
     Map<String, dynamic> body,
-    T Function(Map<String, dynamic>) fromJson,
+    T Function(dynamic) fromJson,
   ) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -61,8 +60,10 @@ class ApiService {
 
       // Success case
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        final jsonReponse = json.decode(response.body);
-        return ApiResponse<T>(data: fromJson(jsonReponse));
+        if (response.body.isEmpty) {
+          return ApiResponse<T>(data: null);
+        }
+        return ApiResponse<T>(data: fromJson(response.body));
       }
       // Failure case
       return ApiResponse(error: response.body);
@@ -75,7 +76,7 @@ class ApiService {
   Future<ApiResponse<T>> patch<T>(
     String url,
     Map<String, dynamic> body,
-    T Function(Map<String, dynamic>) fromJson,
+    T Function(dynamic) fromJson,
   ) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -94,8 +95,10 @@ class ApiService {
 
       // Success case
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        final jsonReponse = json.decode(response.body);
-        return ApiResponse<T>(data: fromJson(jsonReponse));
+        if (response.body.isEmpty) {
+          return ApiResponse<T>(data: null);
+        }
+        return ApiResponse<T>(data: fromJson(response.body));
       }
       // Failure case
       return ApiResponse(error: response.body);
@@ -107,7 +110,7 @@ class ApiService {
 
   Future<ApiResponse<T>> delete<T>(
     String url,
-    T Function(Map<String, dynamic>) fromJson,
+    T Function(dynamic) fromJson,
   ) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -125,8 +128,10 @@ class ApiService {
 
       // Success case
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        final jsonReponse = json.decode(response.body);
-        return ApiResponse<T>(data: fromJson(jsonReponse));
+        if (response.body.isEmpty) {
+          return ApiResponse<T>(data: null);
+        }
+        return ApiResponse<T>(data: fromJson(response.body));
       }
       // Failure case
       return ApiResponse(error: response.body);
