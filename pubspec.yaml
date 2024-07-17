@@ -18,6 +18,8 @@ dependencies:
   intl: ^0.19.0
   stripe_checkout: ^1.0.2
   flutter_native_splash: ^2.4.0
+  awesome_notifications: ^0.9.3+1
+  web_socket_channel: ^3.0.1
 
 dev_dependencies:
   flutter_test:

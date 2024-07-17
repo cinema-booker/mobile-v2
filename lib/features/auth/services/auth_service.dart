@@ -4,9 +4,11 @@ import 'package:cinema_booker/features/auth/data/sign_in_request.dart';
 import 'package:cinema_booker/features/auth/data/sign_up_request.dart';
 import 'package:cinema_booker/features/auth/data/sign_in_response.dart';
 import 'package:cinema_booker/features/auth/data/get_me_response.dart';
+import 'package:cinema_booker/features/webSocket/web_socket_service.dart';
 
 class AuthService {
   ApiService apiService = ApiService();
+  final WebSocketService _webSocketService = WebSocketService();
 
   Future<ApiResponse<Null>> signUpV2({
     required String name,
@@ -53,6 +55,9 @@ class AuthService {
       null,
       (data) {
         GetMeResponse getMeResponse = GetMeResponse.fromJson(data);
+        if(getMeResponse.role == "MANAGER"){
+          _webSocketService.connectWebSocket(getMeResponse.id);
+        }
         return getMeResponse;
       },
     );
