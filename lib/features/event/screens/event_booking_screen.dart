@@ -68,12 +68,15 @@ class _EventBookingScreenState extends State<EventBookingScreen> {
         context,
         true,
         onSuccess: () {
+          // ignore: avoid_print
           print('Success');
         },
         onCancel: () {
+          // ignore: avoid_print
           print('Cancel');
         },
         onError: (error) {
+          // ignore: avoid_print
           print(
             'Error : ${error.toString()}',
           );

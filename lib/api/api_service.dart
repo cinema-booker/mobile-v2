@@ -40,7 +40,7 @@ class ApiService {
 
   Future<ApiResponse<T>> post<T>(
     String url,
-    Map<String, dynamic> body,
+    String body,
     T Function(dynamic) fromJson,
   ) async {
     try {
@@ -55,7 +55,7 @@ class ApiService {
       http.Response response = await http.post(
         Uri.http(ApiConstants.apiBaseUrl, url),
         headers: headers,
-        body: json.encode(body),
+        body: body,
       );
 
       // Success case
@@ -75,7 +75,7 @@ class ApiService {
 
   Future<ApiResponse<T>> patch<T>(
     String url,
-    Map<String, dynamic> body,
+    String body,
     T Function(dynamic) fromJson,
   ) async {
     try {
@@ -90,7 +90,7 @@ class ApiService {
       http.Response response = await http.patch(
         Uri.http(ApiConstants.apiBaseUrl, url),
         headers: headers,
-        body: json.encode(body),
+        body: body,
       );
 
       // Success case

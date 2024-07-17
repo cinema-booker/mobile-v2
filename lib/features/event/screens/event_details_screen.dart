@@ -1,3 +1,4 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/features/event/data/booking_session.dart';
 import 'package:cinema_booker/features/event/data/event_details_response.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
@@ -23,6 +24,8 @@ class EventDetailsScreen extends StatefulWidget {
 
 class _EventDetailsScreenState extends State<EventDetailsScreen> {
   EventDetailsResponse? _event;
+  String? _error;
+
   final EventService _eventService = EventService();
   final SessionService _sessionService = SessionService();
 
@@ -34,13 +37,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   }
 
   void _fetchEvent() async {
-    EventDetailsResponse? event = await _eventService.details(
-      context: context,
+    ApiResponse<EventDetailsResponse> response = await _eventService.detailsV2(
       eventId: widget.eventId,
     );
 
     setState(() {
-      _event = event;
+      _event = response.data;
+      _error = response.error;
     });
   }
 
@@ -94,87 +97,96 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                 color: ThemeColor.white,
               ),
             ),
-            _event == null
+            (_event == null && _error == null)
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Movie : ${_event!.movie.title}",
-                        style: const TextStyle(
-                          color: ThemeColor.white,
+                : _error != null
+                    ? Center(
+                        child: Text(
+                          _error!,
+                          style: const TextStyle(
+                            color: ThemeColor.white,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "Cinema : ${_event!.cinema.name}",
-                        style: const TextStyle(
-                          color: ThemeColor.white,
-                        ),
-                      ),
-                      Text(
-                        "Address : ${_event!.cinema.address.address}",
-                        style: const TextStyle(
-                          color: ThemeColor.white,
-                        ),
-                      ),
-                      // MapView(
-                      //   latitude: _event!.cinema.address.latitude,
-                      //   longitude: _event!.cinema.address.longitude,
-                      // ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _event!.sessions.length,
-                        itemBuilder: (context, index) {
-                          final session = _event!.sessions[index];
-                          return ListTile(
-                            title: Text(
-                              session.startsAt.toString(),
-                              style: const TextStyle(
-                                color: ThemeColor.white,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "${session.room.number} - ${session.priceInEuro.toString()} €",
-                              style: const TextStyle(
-                                color: ThemeColor.gray,
-                              ),
-                            ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () => _showConfirmationDialog(
-                                context,
-                                session.id,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.pushNamed(
-                            AppRouter.sessionCreate,
-                            extra: {
-                              "eventId": _event!.id,
-                            },
-                          );
-                        },
-                        child: const Text("Add session"),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.pushNamed(
-                            AppRouter.eventBooking,
-                            extra: {
-                              "eventId": _event!.id,
-                            },
-                          );
-                        },
-                        child: const Text("Book event"),
                       )
-                    ],
-                  ),
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Movie : ${_event!.movie.title}",
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
+                          ),
+                          Text(
+                            "Cinema : ${_event!.cinema.name}",
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
+                          ),
+                          Text(
+                            "Address : ${_event!.cinema.address.address}",
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
+                          ),
+                          // MapView(
+                          //   latitude: _event!.cinema.address.latitude,
+                          //   longitude: _event!.cinema.address.longitude,
+                          // ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: _event!.sessions.length,
+                            itemBuilder: (context, index) {
+                              final session = _event!.sessions[index];
+                              return ListTile(
+                                title: Text(
+                                  session.startsAt.toString(),
+                                  style: const TextStyle(
+                                    color: ThemeColor.white,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  "${session.room.number} - ${session.priceInEuro.toString()} €",
+                                  style: const TextStyle(
+                                    color: ThemeColor.gray,
+                                  ),
+                                ),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () => _showConfirmationDialog(
+                                    context,
+                                    session.id,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              context.pushNamed(
+                                AppRouter.sessionCreate,
+                                extra: {
+                                  "eventId": _event!.id,
+                                },
+                              );
+                            },
+                            child: const Text("Add session"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              context.pushNamed(
+                                AppRouter.eventBooking,
+                                extra: {
+                                  "eventId": _event!.id,
+                                },
+                              );
+                            },
+                            child: const Text("Book event"),
+                          )
+                        ],
+                      ),
           ],
         ),
       ),

@@ -1,7 +1,8 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/features/event/data/event_list_response.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
 import 'package:cinema_booker/router/app_router.dart';
-import 'package:cinema_booker/widgets/infinite_list.dart';
+import 'package:cinema_booker/widgets/infinite_list_v2.dart';
 import 'package:cinema_booker/widgets/search_input.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,12 @@ class _EventListScreenState extends State<EventListScreen> {
   void _updateSearch(String search) {
     setState(() {
       _search = search;
+      _key = UniqueKey();
+    });
+  }
+
+  void _refreshList() {
+    setState(() {
       _key = UniqueKey();
     });
   }
@@ -74,19 +81,20 @@ class _EventListScreenState extends State<EventListScreen> {
                   );
                 },
                 fetch: (BuildContext context, int page, int limit) async {
-                  List<EventListItem> events = await _eventService.list(
-                    context: context,
+                  ApiResponse<List<EventListItem>> response =
+                      await _eventService.listV2(
                     page: page,
                     limit: limit,
                     search: _search,
                   );
-                  return events;
+                  return response;
                 },
               ),
             ),
             FloatingActionButton(
-              onPressed: () {
-                context.pushNamed(AppRouter.eventCreate);
+              onPressed: () async {
+                await context.pushNamed(AppRouter.eventCreate);
+                _refreshList();
               },
               child: const Icon(Icons.add),
             ),
