@@ -1,3 +1,5 @@
+import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
+import 'package:cinema_booker/features/auth/providers/auth_user.dart';
 import 'package:cinema_booker/router/viewer_bottom_navigation.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,6 +18,7 @@ import 'package:cinema_booker/screens/viewer/event/event_list_screen.dart';
 import 'package:cinema_booker/screens/viewer/booking/booking_details_screen.dart';
 import 'package:cinema_booker/screens/viewer/booking/booking_list_screen.dart';
 import 'package:cinema_booker/screens/viewer/booking/booking_create_screen.dart';
+import 'package:provider/provider.dart';
 
 class ViewerRoutes {
   static const String viewerDashboard = '/viewer/dashboard';
@@ -60,28 +63,6 @@ class ViewerRouter {
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: ViewerRoutes.viewerAccountDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: AccountDetailsScreen(),
-            ),
-          ),
-          GoRoute(
-            path: ViewerRoutes.viewerAccountEdit,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: AccountEditScreen(),
-            ),
-          ),
-          GoRoute(
-            path: ViewerRoutes.viewerPasswordEdit,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: PasswordEditScreen(),
-            ),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
             path: ViewerRoutes.viewerCinemaList,
             pageBuilder: (context, state) => const NoTransitionPage(
               child: CinemaListScreen(),
@@ -89,9 +70,15 @@ class ViewerRouter {
           ),
           GoRoute(
             path: ViewerRoutes.viewerCinemaDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CinemaDetailsScreen(),
-            ),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: CinemaDetailsScreen(
+                  cinemaId: params['cinemaId']!,
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -105,9 +92,15 @@ class ViewerRouter {
           ),
           GoRoute(
             path: ViewerRoutes.viewerEventDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: EventDetailsScreen(),
-            ),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: EventDetailsScreen(
+                  eventId: params['eventId']!,
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -121,18 +114,70 @@ class ViewerRouter {
           ),
           GoRoute(
             path: ViewerRoutes.viewerBookingDetails,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: BookingDetailsScreen(),
-            ),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: BookingDetailsScreen(
+                  bookingId: params['bookingId']!,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: ViewerRoutes.viewerBookingCreate,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: BookingCreateScreen(),
-            ),
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: BookingCreateScreen(
+                  eventId: params['eventId']!,
+                ),
+              );
+            },
           ),
         ],
       ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: ViewerRoutes.viewerAccountDetails,
+            pageBuilder: (context, state) {
+              AuthUser user =
+                  Provider.of<AuthProvider>(context, listen: false).user;
+              return NoTransitionPage(
+                child: AccountDetailsScreen(
+                  userId: user.id,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: ViewerRoutes.viewerAccountEdit,
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: AccountEditScreen(
+                  userId: params['userId']!,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: ViewerRoutes.viewerPasswordEdit,
+            pageBuilder: (context, state) {
+              final params =
+                  GoRouterState.of(context).extra as Map<String, int>;
+              return NoTransitionPage(
+                child: PasswordEditScreen(
+                  userId: params['userId']!,
+                ),
+              );
+            },
+          ),
+        ],
+      )
     ],
   );
 }

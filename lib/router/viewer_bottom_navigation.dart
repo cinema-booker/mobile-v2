@@ -30,6 +30,10 @@ class ViewerBottomNavigation extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.movie),
+            label: 'Cinemas',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.star),
             label: 'Events',
           ),

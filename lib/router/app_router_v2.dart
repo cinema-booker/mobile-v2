@@ -1,4 +1,5 @@
 import 'package:cinema_booker/router/manager_routes.dart';
+import 'package:cinema_booker/router/viewer_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,7 @@ class AppRouterV2 {
         ),
         AdminRouter.routes,
         ManagerRouter.routes,
+        ViewerRouter.routes,
       ],
     );
   }

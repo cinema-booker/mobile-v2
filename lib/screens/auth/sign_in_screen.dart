@@ -9,6 +9,7 @@ import 'package:cinema_booker/features/auth/services/auth_service.dart';
 import 'package:cinema_booker/router/admin_routes.dart';
 import 'package:cinema_booker/router/auth_routes.dart';
 import 'package:cinema_booker/router/manager_routes.dart';
+import 'package:cinema_booker/router/viewer_routes.dart';
 import 'package:cinema_booker/widgets/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -124,6 +125,7 @@ class _SignInScreenState extends State<SignInScreen> {
               },
               child: const Text('Sign Up as Manager'),
             ),
+            const Divider(),
             ElevatedButton(
               onPressed: () {
                 context.go(AdminRoutes.adminDashboard);
@@ -135,6 +137,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 context.go(ManagerRoutes.managerDashboard);
               },
               child: const Text('Manager Dashboard'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.go(ViewerRoutes.viewerDashboard);
+              },
+              child: const Text('Viewer Dashboard'),
             ),
           ],
         ),
