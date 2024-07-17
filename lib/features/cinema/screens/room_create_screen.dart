@@ -1,9 +1,11 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/features/cinema/services/room_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:cinema_booker/widgets/text_input.dart';
+import 'package:go_router/go_router.dart';
 
 class RoomCreateScreen extends StatefulWidget {
   final int cinemaId;
@@ -31,14 +33,30 @@ class _RoomCreateScreenState extends State<RoomCreateScreen> {
     super.dispose();
   }
 
-  void _createRoom() {
+  Future<void> _createRoom() async {
     if (_formKey.currentState!.validate()) {
-      _roomService.create(
-        context: context,
+      ApiResponse<Null> response = await _roomService.createV2(
         cinemaId: widget.cinemaId,
         number: _numberController.text,
         type: _typeController.text,
       );
+      if (response.error != null) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response.error!),
+          ),
+        );
+      } else {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Room created"),
+          ),
+        );
+        // ignore: use_build_context_synchronously
+        context.pop();
+      }
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/features/event/services/session_service.dart';
 import 'package:cinema_booker/widgets/date_time_input.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:cinema_booker/widgets/text_input.dart';
+import 'package:go_router/go_router.dart';
 
 class SessionCreateScreen extends StatefulWidget {
   final int eventId;
@@ -33,15 +35,32 @@ class _SessionCreateScreenState extends State<SessionCreateScreen> {
     super.dispose();
   }
 
-  void _createSession() {
+  Future<void> _createSession() async {
     if (_formKey.currentState!.validate()) {
-      _sessionService.create(
-        context: context,
+      ApiResponse<Null> response = await _sessionService.createV2(
         eventId: widget.eventId,
         roomId: 1,
         price: int.parse(_priceController.text),
         startsAt: DateTime.parse(_startsAtController.text),
       );
+
+      if (response.error != null) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response.error!),
+          ),
+        );
+      } else {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Session created"),
+          ),
+        );
+        // ignore: use_build_context_synchronously
+        context.pop();
+      }
     }
   }
 

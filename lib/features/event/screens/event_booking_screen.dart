@@ -1,3 +1,4 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/features/event/data/booking_create_response.dart';
 import 'package:cinema_booker/features/event/data/booking_session.dart';
 import 'package:cinema_booker/features/event/data/event_details_response.dart';
@@ -25,6 +26,8 @@ class EventBookingScreen extends StatefulWidget {
 
 class _EventBookingScreenState extends State<EventBookingScreen> {
   EventDetailsResponse? _event;
+  String? _error;
+
   final EventService _eventService = EventService();
   final BookingService _bookingService = BookingService();
 
@@ -39,49 +42,48 @@ class _EventBookingScreenState extends State<EventBookingScreen> {
   }
 
   void _fetchEvent() async {
-    EventDetailsResponse? event = await _eventService.details(
-      context: context,
+    ApiResponse<EventDetailsResponse> response = await _eventService.detailsV2(
       eventId: widget.eventId,
     );
 
     setState(() {
-      _event = event;
+      _event = response.data;
+      _error = response.error;
     });
   }
 
   Future<void> _bookEvent(BuildContext context) async {
-    if (_selectedSession == null || _selectedSeats.isEmpty) {
-      return;
-    }
-    BookingCreateResponse? bookingCreateResponse = await _bookingService.create(
-      context: context,
-      sessionId: _selectedSession!.id,
-      seats: _selectedSeats,
-    );
-
-    if (bookingCreateResponse != null) {
-      await StripeService.stripePaymentCheckout(
-        bookingCreateResponse.sessionId,
-        bookingCreateResponse.seats,
-        bookingCreateResponse.price,
-        // ignore: use_build_context_synchronously
-        context,
-        true,
-        onSuccess: () {
-          // ignore: avoid_print
-          print('Success');
-        },
-        onCancel: () {
-          // ignore: avoid_print
-          print('Cancel');
-        },
-        onError: (error) {
-          // ignore: avoid_print
-          print(
-            'Error : ${error.toString()}',
-          );
-        },
+    if (_selectedSession != null || !_selectedSeats.isEmpty) {
+      ApiResponse<BookingCreateResponse> response =
+          await _bookingService.createV2(
+        sessionId: _selectedSession!.id,
+        seats: _selectedSeats,
       );
+
+      if (response.data != null && response.error != null) {
+        await StripeService.stripePaymentCheckout(
+          response.data!.sessionId,
+          response.data!.seats,
+          response.data!.price,
+          // ignore: use_build_context_synchronously
+          context,
+          true,
+          onSuccess: () {
+            // ignore: avoid_print
+            print('Success');
+          },
+          onCancel: () {
+            // ignore: avoid_print
+            print('Cancel');
+          },
+          onError: (error) {
+            // ignore: avoid_print
+            print(
+              'Error : ${error.toString()}',
+            );
+          },
+        );
+      }
     }
   }
 
@@ -100,53 +102,56 @@ class _EventBookingScreenState extends State<EventBookingScreen> {
                   color: ThemeColor.white,
                 ),
               ),
-              _event == null
+              (_event == null && _error == null)
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SessionCheckboxGroup(
-                          sessions: _event!.sessions,
-                          onChanged: (session) {
-                            setState(() {
-                              _selectedSession = session;
-                            });
-                          },
-                        ),
-                        _selectedSession == null
-                            ? const SizedBox()
-                            : SeatCheckboxGroup(
-                                bookedSeats: _selectedSession!.seats,
-                                room: _selectedSession!.room,
-                                onChanged: (seats) {
-                                  setState(() {
-                                    _selectedSeats = seats;
-                                  });
-                                },
-                              ),
-                        Text(
-                          'Total Price: ${_selectedSeats.length * (_selectedSession?.priceInEuro ?? 0)} €',
-                          style: const TextStyle(
-                            fontSize: ThemeFontSize.s18,
-                            color: ThemeColor.white,
+                  : _error != null
+                      ? Center(
+                          child: Text(
+                            _error!,
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
                           ),
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SessionCheckboxGroup(
+                              sessions: _event!.sessions,
+                              onChanged: (session) {
+                                setState(() {
+                                  _selectedSession = session;
+                                });
+                              },
+                            ),
+                            _selectedSession == null
+                                ? const SizedBox()
+                                : SeatCheckboxGroup(
+                                    bookedSeats: _selectedSession!.seats,
+                                    room: _selectedSession!.room,
+                                    onChanged: (seats) {
+                                      setState(() {
+                                        _selectedSeats = seats;
+                                      });
+                                    },
+                                  ),
+                            Text(
+                              'Total Price: ${_selectedSeats.length * (_selectedSession?.priceInEuro ?? 0)} €',
+                              style: const TextStyle(
+                                fontSize: ThemeFontSize.s18,
+                                color: ThemeColor.white,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                _bookEvent(context);
+                              },
+                              child: const Text('Book'),
+                            ),
+                          ],
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            _bookEvent(context);
-                          },
-                          child: const Text('Book'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            var items = ["S01", "S02"];
-                          },
-                          child: const Text('Pay'),
-                        ),
-                      ],
-                    ),
             ],
           ),
         ),

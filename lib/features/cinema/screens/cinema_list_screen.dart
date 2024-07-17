@@ -1,5 +1,6 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/router/app_router.dart';
-import 'package:cinema_booker/widgets/infinite_list.dart';
+import 'package:cinema_booker/widgets/infinite_list_v2.dart';
 import 'package:cinema_booker/widgets/search_input.dart';
 import 'package:flutter/material.dart';
 
@@ -81,13 +82,13 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
                   );
                 },
                 fetch: (BuildContext context, int page, int limit) async {
-                  List<CinemaListItem> cinemas = await _cinemaService.list(
-                    context: context,
+                  ApiResponse<List<CinemaListItem>> response =
+                      await _cinemaService.listV2(
                     page: page,
                     limit: limit,
                     search: _search,
                   );
-                  return cinemas;
+                  return response;
                 },
               ),
             )

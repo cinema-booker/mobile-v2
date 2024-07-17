@@ -1,7 +1,8 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/features/event/data/event_list_response.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
 import 'package:cinema_booker/router/app_router.dart';
-import 'package:cinema_booker/widgets/infinite_list.dart';
+import 'package:cinema_booker/widgets/infinite_list_v2.dart';
 import 'package:cinema_booker/widgets/search_input.dart';
 import 'package:flutter/material.dart';
 
@@ -29,27 +30,6 @@ class _EventSearchScreenState extends State<EventSearchScreen> {
     });
   }
 
-  void _onFilterPressed() {
-    showModalBottomSheet(
-      context: context,
-      builder: (modalBottomSheetContext) {
-        return SizedBox(
-          width: double.infinity,
-          height: 300,
-          child: Column(
-            children: [
-              const Text("Filters here"),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text("Apply"),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,10 +46,6 @@ class _EventSearchScreenState extends State<EventSearchScreen> {
             ),
             SearchInput(
               onChanged: _updateSearch,
-            ),
-            ElevatedButton(
-              onPressed: _onFilterPressed,
-              child: const Text("Filter"),
             ),
             Expanded(
               child: InfiniteList<EventListItem>(
@@ -99,13 +75,13 @@ class _EventSearchScreenState extends State<EventSearchScreen> {
                   );
                 },
                 fetch: (BuildContext context, int page, int limit) async {
-                  List<EventListItem> events = await _eventService.list(
-                    context: context,
+                  ApiResponse<List<EventListItem>> response =
+                      await _eventService.listV2(
                     page: page,
                     limit: limit,
                     search: _search,
                   );
-                  return events;
+                  return response;
                 },
               ),
             ),

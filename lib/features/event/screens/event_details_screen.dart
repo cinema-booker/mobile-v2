@@ -23,6 +23,7 @@ class EventDetailsScreen extends StatefulWidget {
 }
 
 class _EventDetailsScreenState extends State<EventDetailsScreen> {
+  Key _key = UniqueKey();
   EventDetailsResponse? _event;
   String? _error;
 
@@ -47,12 +48,27 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     });
   }
 
-  void _deleteSession(int sessionId) {
-    _sessionService.delete(
-      context: context,
+  void _refreshList() {
+    setState(() {
+      _key = UniqueKey();
+    });
+  }
+
+  Future<void> _deleteSession(int sessionId) async {
+    ApiResponse<Null> response = await _sessionService.deleteV2(
       eventId: widget.eventId,
       sessionId: sessionId,
     );
+    if (response.error != null) {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response.error!),
+        ),
+      );
+    } else {
+      _fetchEvent();
+    }
   }
 
   void _showConfirmationDialog(BuildContext context, int sessionId) {
@@ -136,6 +152,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           //   longitude: _event!.cinema.address.longitude,
                           // ),
                           ListView.builder(
+                            key: _key,
                             shrinkWrap: true,
                             itemCount: _event!.sessions.length,
                             itemBuilder: (context, index) {
@@ -164,13 +181,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                             },
                           ),
                           ElevatedButton(
-                            onPressed: () {
-                              context.pushNamed(
+                            onPressed: () async {
+                              await context.pushNamed(
                                 AppRouter.sessionCreate,
                                 extra: {
                                   "eventId": _event!.id,
                                 },
                               );
+                              _refreshList();
                             },
                             child: const Text("Add session"),
                           ),

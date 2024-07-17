@@ -1,3 +1,4 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinema_booker/theme/theme_color.dart';
@@ -38,17 +39,31 @@ class _CinemaCreateScreenState extends State<CinemaCreateScreen> {
     super.dispose();
   }
 
-  void _createCinema() {
+  Future<void> _createCinema() async {
     // @todo validate `_address`, `_longitude`, `_latitude`
     if (_formKey.currentState!.validate()) {
-      _cinemaService.create(
-        context: context,
+      ApiResponse<Null> resonse = await _cinemaService.createV2(
         name: _nameController.text,
         description: _descriptionController.text,
         address: _address,
         longitude: _longitude,
         latitude: _latitude,
       );
+      if (resonse.error != null) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(resonse.error!),
+          ),
+        );
+      } else {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Cinema created successfully'),
+          ),
+        );
+      }
     }
   }
 

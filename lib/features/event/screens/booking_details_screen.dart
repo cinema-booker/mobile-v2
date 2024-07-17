@@ -1,3 +1,4 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/features/event/data/booking_list_response.dart';
 import 'package:cinema_booker/features/event/services/booking_service.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ class BookingDetailsScreen extends StatefulWidget {
 
 class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   BookingListItem? _booking;
+  String? _error;
+
   final BookingService _bookingService = BookingService();
 
   @override
@@ -29,13 +32,13 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   }
 
   void _fetchBooking() async {
-    BookingListItem? booking = await _bookingService.details(
-      context: context,
+    ApiResponse<BookingListItem> response = await _bookingService.detailsV2(
       bookingId: widget.bookingId,
     );
 
     setState(() {
-      _booking = booking;
+      _booking = response.data;
+      _error = response.error;
     });
   }
 
@@ -53,39 +56,48 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                 color: ThemeColor.white,
               ),
             ),
-            _booking == null
+            (_booking == null && _error == null)
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Cinema : ${_booking!.session.event.cinema.name}",
-                        style: const TextStyle(
-                          color: ThemeColor.white,
+                : _error != null
+                    ? Center(
+                        child: Text(
+                          _error!,
+                          style: const TextStyle(
+                            color: ThemeColor.white,
+                          ),
                         ),
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Cinema : ${_booking!.session.event.cinema.name}",
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
+                          ),
+                          Text(
+                            "Movie : ${_booking!.session.event.movie.title}",
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
+                          ),
+                          Text(
+                            "Room : ${_booking!.session.room.number}",
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
+                          ),
+                          Text(
+                            "Seat : ${_booking!.place}",
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "Movie : ${_booking!.session.event.movie.title}",
-                        style: const TextStyle(
-                          color: ThemeColor.white,
-                        ),
-                      ),
-                      Text(
-                        "Room : ${_booking!.session.room.number}",
-                        style: const TextStyle(
-                          color: ThemeColor.white,
-                        ),
-                      ),
-                      Text(
-                        "Seat : ${_booking!.place}",
-                        style: const TextStyle(
-                          color: ThemeColor.white,
-                        ),
-                      ),
-                    ],
-                  ),
           ],
         ),
       ),

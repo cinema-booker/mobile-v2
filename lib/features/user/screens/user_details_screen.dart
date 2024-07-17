@@ -1,3 +1,4 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/features/user/data/user_details_response.dart';
 import 'package:cinema_booker/features/user/services/user_service.dart';
 import 'package:cinema_booker/router/app_router.dart';
@@ -21,6 +22,8 @@ class UserDetailsScreen extends StatefulWidget {
 
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
   UserDetailsResponse? _user;
+  String? _error;
+
   final UserService _userService = UserService();
 
   @override
@@ -30,14 +33,14 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     _fetchUser();
   }
 
-  void _fetchUser() async {
-    UserDetailsResponse? user = await _userService.details(
-      context: context,
+  Future<void> _fetchUser() async {
+    ApiResponse<UserDetailsResponse> response = await _userService.detailsV2(
       userId: widget.userId,
     );
 
     setState(() {
-      _user = user;
+      _user = response.data;
+      _error = response.error;
     });
   }
 
@@ -49,7 +52,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
-            onPressed: () {
+            onPressed: () async {
               context.pushNamed(
                 AppRouter.userEdit,
                 extra: {
@@ -71,33 +74,40 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 color: ThemeColor.white,
               ),
             ),
-            _user == null
+            (_user == null && _error == null)
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Name: ${_user!.name}",
+                : _error != null
+                    ? Text(
+                        _error!,
                         style: const TextStyle(
                           color: ThemeColor.white,
                         ),
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Name: ${_user!.name}",
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
+                          ),
+                          Text(
+                            "Email: ${_user!.email}",
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
+                          ),
+                          Text(
+                            "Role: ${_user!.role}",
+                            style: const TextStyle(
+                              color: ThemeColor.white,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "Email: ${_user!.email}",
-                        style: const TextStyle(
-                          color: ThemeColor.white,
-                        ),
-                      ),
-                      Text(
-                        "Role: ${_user!.role}",
-                        style: const TextStyle(
-                          color: ThemeColor.white,
-                        ),
-                      ),
-                    ],
-                  ),
           ],
         ),
       ),

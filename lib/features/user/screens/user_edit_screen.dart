@@ -1,3 +1,4 @@
+import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/features/user/data/user_details_response.dart';
 import 'package:cinema_booker/features/user/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:cinema_booker/widgets/text_input.dart';
+import 'package:go_router/go_router.dart';
 
 class UserEditScreen extends StatefulWidget {
   final int userId;
@@ -19,10 +21,12 @@ class UserEditScreen extends StatefulWidget {
 }
 
 class _UserEditScreenState extends State<UserEditScreen> {
+  UserDetailsResponse? _user;
+  String? _error;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final UserService _userService = UserService();
-  UserDetailsResponse? _user;
 
   @override
   void initState() {
@@ -38,24 +42,41 @@ class _UserEditScreenState extends State<UserEditScreen> {
     super.dispose();
   }
 
-  void _fetchUser() async {
-    UserDetailsResponse? user = await _userService.details(
-      context: context,
+  Future<void> _fetchUser() async {
+    ApiResponse<UserDetailsResponse> response = await _userService.detailsV2(
       userId: widget.userId,
     );
 
     setState(() {
-      _user = user;
+      _user = response.data;
+      _error = response.error;
     });
   }
 
-  void _editUser() {
+  void _editUser() async {
     if (_formKey.currentState!.validate()) {
-      _userService.edit(
-        context: context,
+      ApiResponse<Null> response = await _userService.editV2(
         userId: widget.userId,
         name: _nameController.text,
       );
+
+      if (response.error != null) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response.error!),
+          ),
+        );
+      } else {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("User updated"),
+          ),
+        );
+        // ignore: use_build_context_synchronously
+        context.pop();
+      }
     }
   }
 
@@ -91,11 +112,18 @@ class _UserEditScreenState extends State<UserEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: _user == null
+        child: (_user == null && _error == null)
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : _buildForm(context, _user!),
+            : _error != null
+                ? Text(
+                    _error!,
+                    style: const TextStyle(
+                      color: ThemeColor.white,
+                    ),
+                  )
+                : _buildForm(context, _user!),
       ),
     );
   }
