@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button.dart';
+import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/features/cinema/data/cinema_details_response.dart';
 import 'package:cinema_booker/features/cinema/services/cinema_service.dart';
 import 'package:cinema_booker/features/cinema/services/room_service.dart';
@@ -189,7 +191,7 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
                         );
                       },
                     ),
-                    ElevatedButton(
+                    Button(
                       onPressed: () async {
                         await context.push(
                           AdminRoutes.adminCinemaRoomCreate,
@@ -201,7 +203,7 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
                           _fetchCinema();
                         });
                       },
-                      child: const Text("Add room"),
+                      label: "Add Room",
                     )
                   ],
                 ),

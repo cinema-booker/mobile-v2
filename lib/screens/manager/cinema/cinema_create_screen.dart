@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/features/auth/data/get_me_response.dart';
 import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
 import 'package:cinema_booker/features/auth/services/auth_service.dart';
@@ -11,7 +12,7 @@ import 'package:cinema_booker/features/cinema/services/places_service.dart';
 import 'package:cinema_booker/features/cinema/widgets/address_autocomplete.dart';
 import 'package:cinema_booker/router/manager_routes.dart';
 import 'package:cinema_booker/widgets/screen.dart';
-import 'package:cinema_booker/widgets/text_input.dart';
+import 'package:cinema_booker/core/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -132,9 +133,9 @@ class _CinemaCreateScreenState extends State<CinemaCreateScreen> {
               controller: _descriptionController,
               keyboardType: TextInputType.multiline,
             ),
-            ElevatedButton(
+            Button(
               onPressed: _createCinema,
-              child: const Text('Save'),
+              label: 'Create Cinema',
             ),
           ],
         ),

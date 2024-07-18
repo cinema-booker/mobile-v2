@@ -1,4 +1,5 @@
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/features/user/data/user_details_response.dart';
 import 'package:cinema_booker/features/user/services/user_service.dart';
 import 'package:cinema_booker/router/viewer_routes.dart';
@@ -82,7 +83,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                         color: ThemeColor.white,
                       ),
                     ),
-                    ElevatedButton(
+                    Button(
                       onPressed: () async {
                         await context.push(
                           ViewerRoutes.viewerAccountEdit,
@@ -94,9 +95,9 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                           _fetchUser();
                         });
                       },
-                      child: const Text("Edit Profile"),
+                      label: 'Edit Account',
                     ),
-                    ElevatedButton(
+                    Button(
                       onPressed: () async {
                         await context.push(
                           ViewerRoutes.viewerPasswordEdit,
@@ -108,7 +109,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                           _fetchUser();
                         });
                       },
-                      child: const Text("Edit Password"),
+                      label: 'Change Password',
                     ),
                     const SignOutButton(),
                   ],

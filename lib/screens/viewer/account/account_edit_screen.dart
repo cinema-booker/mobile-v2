@@ -1,12 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/features/user/data/user_details_response.dart';
 import 'package:cinema_booker/features/user/services/user_service.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:cinema_booker/widgets/screen.dart';
-import 'package:cinema_booker/widgets/text_input.dart';
+import 'package:cinema_booker/core/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -116,9 +117,9 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
                         keyboardType: TextInputType.text,
                         defaultValue: _user!.name,
                       ),
-                      ElevatedButton(
+                      Button(
                         onPressed: _editProfile,
-                        child: const Text('Save'),
+                        label: 'Edit Profile',
                       ),
                     ],
                   ),

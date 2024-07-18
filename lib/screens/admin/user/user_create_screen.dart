@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button.dart';
+import 'package:cinema_booker/core/text_input.dart';
 import 'package:cinema_booker/features/auth/services/auth_service.dart';
 import 'package:cinema_booker/widgets/screen.dart';
 import 'package:flutter/material.dart';
@@ -70,37 +72,29 @@ class _UserCreateScreenState extends State<UserCreateScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
+            TextInput(
               controller: _nameController,
               keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                hintText: "Name",
-              ),
+              hint: 'Name',
             ),
-            TextFormField(
+            TextInput(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: "Email",
-              ),
+              hint: 'Email',
             ),
-            TextFormField(
+            TextInput(
               controller: _passwordController,
               keyboardType: TextInputType.visiblePassword,
-              decoration: const InputDecoration(
-                hintText: "Password",
-              ),
+              hint: 'Password',
             ),
-            TextFormField(
+            TextInput(
               controller: _roleController,
               keyboardType: TextInputType.visiblePassword,
-              decoration: const InputDecoration(
-                hintText: "Role",
-              ),
+              hint: 'Role',
             ),
-            ElevatedButton(
+            Button(
               onPressed: _createUser,
-              child: const Text('Save'),
+              label: 'Create User',
             ),
           ],
         ),

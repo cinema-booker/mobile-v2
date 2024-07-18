@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/features/event/data/booking_create_response.dart';
 import 'package:cinema_booker/features/event/data/booking_session.dart';
 import 'package:cinema_booker/features/event/data/event_details_response.dart';
@@ -135,11 +136,11 @@ class _BookingCreateScreenState extends State<BookingCreateScreen> {
                         color: ThemeColor.white,
                       ),
                     ),
-                    ElevatedButton(
+                    Button(
                       onPressed: () {
                         _bookEvent(context);
                       },
-                      child: const Text('Book'),
+                      label: 'Book Event',
                     ),
                   ],
                 ),

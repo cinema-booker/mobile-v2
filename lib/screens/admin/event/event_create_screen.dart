@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button.dart';
+import 'package:cinema_booker/core/text_input.dart';
 import 'package:cinema_booker/features/event/data/movie_autocomplete_item.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
 import 'package:cinema_booker/features/event/widgets/movie_autocomplete.dart';
@@ -57,12 +59,10 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
+            TextInput(
               controller: _cinemaIdController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                hintText: "Cinema Id",
-              ),
+              hint: 'Cinema Id',
             ),
             MovieAutocomplete(
               onSelected: (movie) {
@@ -72,9 +72,9 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
                 _selectedMovie = null;
               },
             ),
-            ElevatedButton(
+            Button(
               onPressed: _createEvent,
-              child: const Text('Save'),
+              label: 'Create Event',
             ),
           ],
         ),

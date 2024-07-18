@@ -1,10 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/features/event/services/session_service.dart';
 import 'package:cinema_booker/widgets/date_time_input.dart';
 import 'package:cinema_booker/widgets/screen.dart';
-import 'package:cinema_booker/widgets/text_input.dart';
+import 'package:cinema_booker/core/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -85,9 +86,9 @@ class _SessionCreateScreenState extends State<SessionCreateScreen> {
               keyboardType: TextInputType.number,
             ),
             DateTimeInput(controller: _startsAtController),
-            ElevatedButton(
+            Button(
               onPressed: _createSession,
-              child: const Text('Save'),
+              label: 'Create Session',
             ),
           ],
         ),

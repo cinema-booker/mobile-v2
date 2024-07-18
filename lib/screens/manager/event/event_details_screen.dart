@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/features/event/data/event_details_response.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
 import 'package:cinema_booker/features/event/services/session_service.dart';
@@ -164,7 +165,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                         );
                       },
                     ),
-                    ElevatedButton(
+                    Button(
                       onPressed: () async {
                         await context.push(
                           ManagerRoutes.managerEventSessionCreate,
@@ -174,7 +175,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                         );
                         _fetchEvent();
                       },
-                      child: const Text("Add session"),
+                      label: 'Add Session',
                     ),
                   ],
                 ),

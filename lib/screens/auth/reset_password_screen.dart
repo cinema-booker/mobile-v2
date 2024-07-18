@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button_text.dart';
+import 'package:cinema_booker/core/text_input.dart';
 import 'package:cinema_booker/features/auth/services/auth_service.dart';
 import 'package:cinema_booker/router/auth_routes.dart';
 import 'package:cinema_booker/widgets/screen.dart';
@@ -65,30 +67,24 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
+            TextInput(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: "Email",
-              ),
+              hint: 'Email',
             ),
-            TextFormField(
+            TextInput(
               controller: _codeController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                hintText: "Code",
-              ),
+              hint: 'Code',
             ),
-            TextFormField(
+            TextInput(
               controller: _passwordController,
               keyboardType: TextInputType.visiblePassword,
-              decoration: const InputDecoration(
-                hintText: "New Password",
-              ),
+              hint: 'Password',
             ),
-            ElevatedButton(
+            ButtonText(
               onPressed: _resetPassword,
-              child: const Text('Reset Password'),
+              label: 'Reset Password',
             ),
           ],
         ),
