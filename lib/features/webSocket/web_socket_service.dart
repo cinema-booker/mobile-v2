@@ -26,6 +26,7 @@ class WebSocketService {
         },
         onDone: () {
           print('WebSocket connection closed');
+          _reconnectWebSocket(managerID);
         },
         onError: (error) {
           print('WebSocket error: ${error.toString()}');
@@ -35,6 +36,11 @@ class WebSocketService {
     } catch (e) {
       print('Failed to connect to WebSocket: ${e.toString()}');
     }
+  }
+
+  void _reconnectWebSocket(int managerID) {
+      print('Attempting to reconnect to WebSocket...');
+      connectWebSocket(managerID);
   }
 
 

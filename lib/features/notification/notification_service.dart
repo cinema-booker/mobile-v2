@@ -7,8 +7,8 @@ class NotificationService {
       null, // logo
       [
         NotificationChannel(
-          channelGroupKey: 'high_importance_channel',
-          channelKey: 'high_importance_channel',
+          channelGroupKey: 'basic_channel_channel',
+          channelKey: 'basic_channel',
           channelName: 'Basic notifications',
           channelDescription: 'Notification channel for basic tests',
           defaultColor: Colors.blue,
@@ -22,7 +22,7 @@ class NotificationService {
       ],
       channelGroups: [
         NotificationChannelGroup(
-          channelGroupKey: 'high_importance_channel_group',
+          channelGroupKey: 'basic_channel_group',
           channelGroupName: 'group 1',
         ),
       ],
