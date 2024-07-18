@@ -2,12 +2,17 @@
 
 import 'package:cinema_booker/api/api_constants.dart';
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/core/button.dart';
+import 'package:cinema_booker/core/button_text.dart';
+import 'package:cinema_booker/core/password_input.dart';
+import 'package:cinema_booker/core/text_input.dart';
 import 'package:cinema_booker/features/auth/data/get_me_response.dart';
 import 'package:cinema_booker/features/auth/data/sign_in_response.dart';
 import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
 import 'package:cinema_booker/features/auth/services/auth_service.dart';
 import 'package:cinema_booker/router/admin_routes.dart';
 import 'package:cinema_booker/router/auth_routes.dart';
+import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/widgets/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -93,41 +98,37 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
+            const SizedBox(height: 16),
+            TextInput(
+              hint: 'Email',
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: "Email",
-              ),
             ),
-            TextFormField(
+            const SizedBox(height: 16),
+            PasswordInput(
+              hint: 'Password',
               controller: _passwordController,
-              keyboardType: TextInputType.visiblePassword,
-              decoration: const InputDecoration(
-                hintText: "Password",
-              ),
             ),
-            ElevatedButton(
-              onPressed: _signIn,
-              child: const Text('Sign In'),
+            const SizedBox(height: 16),
+            ButtonText(
+              label: "Forget password ?",
+              onPressed: () => context.push(AuthRoutes.authForgetPassword),
             ),
-            ElevatedButton(
-              onPressed: () {
-                context.push(AuthRoutes.authForgetPassword);
-              },
-              child: const Text('Forget Password'),
+            const SizedBox(height: 16),
+            Button(label: "Sign In", onPressed: _signIn),
+            const SizedBox(height: 16),
+            const Divider(
+              color: ThemeColor.brown100,
             ),
-            ElevatedButton(
-              onPressed: () {
-                context.push(AuthRoutes.authSignUpViewer);
-              },
-              child: const Text('Sign Up as Viewer'),
+            const SizedBox(height: 16),
+            Button(
+              label: "Sign up as Manager",
+              onPressed: () => context.push(AuthRoutes.authSignUpManager),
             ),
-            ElevatedButton(
-              onPressed: () {
-                context.push(AuthRoutes.authSignUpManager);
-              },
-              child: const Text('Sign Up as Manager'),
+            const SizedBox(height: 16),
+            Button(
+              label: "Sign up as Viewer",
+              onPressed: () => context.push(AuthRoutes.authSignUpViewer),
             ),
           ],
         ),

@@ -16,7 +16,13 @@ class Screen extends StatelessWidget {
       appBar: appBar,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: child,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
+            child: child,
+          ),
         ),
       ),
     );

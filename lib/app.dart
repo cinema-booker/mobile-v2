@@ -73,13 +73,13 @@ class _AppState extends State<App> {
           showUnselectedLabels: false,
         ),
         // TextFormField
-        inputDecorationTheme: const InputDecorationTheme(
-          filled: true,
-          fillColor: ThemeColor.brown200,
-          hintStyle: TextStyle(
-            color: ThemeColor.gray,
-          ),
-        ),
+        // inputDecorationTheme: const InputDecorationTheme(
+        //   filled: true,
+        //   fillColor: ThemeColor.brown200,
+        //   hintStyle: TextStyle(
+        //     color: ThemeColor.gray,
+        //   ),
+        // ),
       ),
     );
   }
