@@ -46,7 +46,7 @@ class AppRouterV2 {
           if (user.cinemaId == null) {
             return ManagerRoutes.managerCinemaCreate;
           }
-          return ManagerRoutes.managerCinemaCreate;
+          return ManagerRoutes.managerDashboard;
         }
 
         if (isLogged &&
@@ -54,6 +54,23 @@ class AppRouterV2 {
             !state.fullPath!.startsWith("/viewer") &&
             !state.fullPath!.startsWith("/auth")) {
           return ViewerRoutes.viewerDashboard;
+        }
+
+        if (isLogged &&
+            user.role == "MANAGER" &&
+            state.fullPath!.startsWith("/manager/cinema/create") &&
+            user.cinemaId != null) {
+          return ManagerRoutes.managerDashboard;
+        }
+
+        if (isLogged &&
+            user.role == "MANAGER" &&
+            state.fullPath!.startsWith("/manager") &&
+            !state.fullPath!.startsWith("/manager/account")) {
+          if (user.cinemaId == null) {
+            return ManagerRoutes.managerCinemaCreate;
+          }
+          return state.fullPath;
         }
 
         if (isLogged && state.fullPath!.startsWith("/auth")) {
