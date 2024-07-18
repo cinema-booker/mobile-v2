@@ -58,13 +58,6 @@ class AppRouterV2 {
 
         if (isLogged &&
             user.role == "MANAGER" &&
-            state.fullPath!.startsWith("/manager/cinema/create") &&
-            user.cinemaId != null) {
-          return ManagerRoutes.managerDashboard;
-        }
-
-        if (isLogged &&
-            user.role == "MANAGER" &&
             state.fullPath!.startsWith("/manager") &&
             !state.fullPath!.startsWith("/manager/account")) {
           if (user.cinemaId == null) {
