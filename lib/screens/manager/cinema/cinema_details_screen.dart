@@ -103,13 +103,14 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
     return Screen(
       appBar: AppBar(title: const Text('Cinema Details'), actions: [
         IconButton(
-          onPressed: () {
-            context.push(
+          onPressed: () async {
+            await context.push(
               ManagerRoutes.managerCinemaEdit,
               extra: {
                 'cinemaId': widget.cinemaId,
               },
             );
+            _fetchCinema();
           },
           icon: const Icon(Icons.edit),
         )
@@ -187,12 +188,13 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        context.push(
+                        await context.push(
                           ManagerRoutes.managerCinemaRoomCreate,
                           extra: {
                             "cinemaId": _cinema!.id,
                           },
                         );
+                        _fetchCinema();
                       },
                       child: const Text("Add room"),
                     )

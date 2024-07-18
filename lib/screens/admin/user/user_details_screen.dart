@@ -50,13 +50,16 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
         title: const Text('User Details'),
         actions: [
           IconButton(
-            onPressed: () {
-              context.push(
+            onPressed: () async {
+              await context.push(
                 AdminRoutes.adminUserEdit,
                 extra: {
                   'userId': widget.userId,
                 },
               );
+              setState(() {
+                _fetchUser();
+              });
             },
             icon: const Icon(Icons.edit),
           )

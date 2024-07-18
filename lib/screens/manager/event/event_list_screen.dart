@@ -35,8 +35,9 @@ class _EventListScreenState extends State<EventListScreen> {
         title: const Text('Event List'),
         actions: [
           IconButton(
-            onPressed: () {
-              context.push(ManagerRoutes.managerEventCreate);
+            onPressed: () async {
+              await context.push(ManagerRoutes.managerEventCreate);
+              _key = UniqueKey();
             },
             icon: const Icon(Icons.add),
           )

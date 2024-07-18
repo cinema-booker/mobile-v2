@@ -35,8 +35,9 @@ class _CinemaListScreenState extends State<CinemaListScreen> {
         title: const Text('Cinema List'),
         actions: [
           IconButton(
-            onPressed: () {
-              context.push(AdminRoutes.adminCinemaCreate);
+            onPressed: () async {
+              await context.push(AdminRoutes.adminCinemaCreate);
+              _key = UniqueKey();
             },
             icon: const Icon(Icons.add),
           )

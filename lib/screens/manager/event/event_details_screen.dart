@@ -82,6 +82,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               child: const Text('Delete'),
               onPressed: () {
                 _deleteSession(sessionId);
+                _fetchEvent();
                 Navigator.of(dialogContext).pop();
               },
             ),
@@ -165,12 +166,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        context.push(
+                        await context.push(
                           ManagerRoutes.managerEventSessionCreate,
                           extra: {
                             "eventId": _event!.id,
                           },
                         );
+                        _fetchEvent();
                       },
                       child: const Text("Add session"),
                     ),

@@ -1,6 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
+import 'package:cinema_booker/features/auth/data/get_me_response.dart';
+import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
+import 'package:cinema_booker/features/auth/services/auth_service.dart';
 import 'package:cinema_booker/features/cinema/data/places_autocomplete_prediction.dart';
 import 'package:cinema_booker/features/cinema/data/places_geocoding_response.dart';
 import 'package:cinema_booker/features/cinema/services/cinema_service.dart';
@@ -11,6 +14,7 @@ import 'package:cinema_booker/widgets/screen.dart';
 import 'package:cinema_booker/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class CinemaCreateScreen extends StatefulWidget {
   const CinemaCreateScreen({super.key});
@@ -26,6 +30,7 @@ class _CinemaCreateScreenState extends State<CinemaCreateScreen> {
 
   final PlacesService _placesService = PlacesService();
   final CinemaService _cinemaService = CinemaService();
+  final AuthService _authService = AuthService();
 
   // ignore: unused_field
   String _address = '';
@@ -66,7 +71,18 @@ class _CinemaCreateScreenState extends State<CinemaCreateScreen> {
           ),
         );
 
-        context.go(ManagerRoutes.managerDashboard);
+        ApiResponse<GetMeResponse> response = await _authService.meV2();
+        if (response.data != null && response.error == null) {
+          GetMeResponse me = response.data!;
+          Provider.of<AuthProvider>(context, listen: false).setUser(
+            me.id,
+            me.name,
+            me.email,
+            me.role,
+            me.cinemaId,
+          );
+          context.go(ManagerRoutes.managerDashboard);
+        }
       }
     }
   }

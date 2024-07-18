@@ -89,6 +89,7 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
               child: const Text('Delete'),
               onPressed: () {
                 _deleteRoom(roomId);
+                _fetchCinema();
                 Navigator.of(dialogContext).pop();
               },
             ),
@@ -103,13 +104,16 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
     return Screen(
       appBar: AppBar(title: const Text('Cinema Details'), actions: [
         IconButton(
-          onPressed: () {
-            context.push(
+          onPressed: () async {
+            await context.push(
               AdminRoutes.adminCinemaEdit,
               extra: {
                 'cinemaId': widget.cinemaId,
               },
             );
+            setState(() {
+              _fetchCinema();
+            });
           },
           icon: const Icon(Icons.edit),
         )
@@ -187,12 +191,15 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        context.push(
+                        await context.push(
                           AdminRoutes.adminCinemaRoomCreate,
                           extra: {
                             "cinemaId": _cinema!.id,
                           },
                         );
+                        setState(() {
+                          _fetchCinema();
+                        });
                       },
                       child: const Text("Add room"),
                     )

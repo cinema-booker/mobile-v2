@@ -35,8 +35,9 @@ class _UserListScreenState extends State<UserListScreen> {
         title: const Text('User List'),
         actions: [
           IconButton(
-            onPressed: () {
-              context.push(AdminRoutes.adminUserCreate);
+            onPressed: () async {
+              await context.push(AdminRoutes.adminUserCreate);
+              _key = UniqueKey();
             },
             icon: const Icon(Icons.add),
           )
