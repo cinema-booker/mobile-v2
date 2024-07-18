@@ -4,6 +4,7 @@ import 'package:cinema_booker/features/user/services/user_service.dart';
 import 'package:cinema_booker/router/admin_routes.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/widgets/screen.dart';
+import 'package:cinema_booker/widgets/sign_out_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -103,6 +104,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                       },
                       child: const Text("Edit Password"),
                     ),
+                    const SignOutButton(),
                   ],
                 ),
     );

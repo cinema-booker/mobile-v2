@@ -1,5 +1,7 @@
 import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/api/api_service.dart';
+import 'package:cinema_booker/features/auth/data/forget_password_request.dart';
+import 'package:cinema_booker/features/auth/data/reset_password_request.dart';
 import 'package:cinema_booker/features/auth/data/sign_in_request.dart';
 import 'package:cinema_booker/features/auth/data/sign_up_request.dart';
 import 'package:cinema_booker/features/auth/data/sign_in_response.dart';
@@ -55,11 +57,43 @@ class AuthService {
       null,
       (data) {
         GetMeResponse getMeResponse = GetMeResponse.fromJson(data);
-        if(getMeResponse.role == "MANAGER"){
+        if (getMeResponse.role == "MANAGER") {
           _webSocketService.connectWebSocket(getMeResponse.id);
         }
         return getMeResponse;
       },
+    );
+  }
+
+  Future<ApiResponse<Null>> forgetPasswordV2({
+    required String email,
+  }) async {
+    ForgetPasswordRequest body = ForgetPasswordRequest(
+      email: email,
+    );
+
+    return apiService.post(
+      "send-password-reset",
+      body.toJson(),
+      (_) => null,
+    );
+  }
+
+  Future<ApiResponse<Null>> resetPasswordV2({
+    required String email,
+    required String code,
+    required String password,
+  }) async {
+    ResetPasswordRequest body = ResetPasswordRequest(
+      email: email,
+      code: code,
+      password: password,
+    );
+
+    return apiService.post(
+      "reset-password",
+      body.toJson(),
+      (_) => null,
     );
   }
 

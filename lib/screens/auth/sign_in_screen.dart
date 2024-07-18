@@ -8,8 +8,6 @@ import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
 import 'package:cinema_booker/features/auth/services/auth_service.dart';
 import 'package:cinema_booker/router/admin_routes.dart';
 import 'package:cinema_booker/router/auth_routes.dart';
-import 'package:cinema_booker/router/manager_routes.dart';
-import 'package:cinema_booker/router/viewer_routes.dart';
 import 'package:cinema_booker/widgets/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -115,6 +113,12 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             ElevatedButton(
               onPressed: () {
+                context.push(AuthRoutes.authForgetPassword);
+              },
+              child: const Text('Forget Password'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 context.push(AuthRoutes.authSignUpViewer);
               },
               child: const Text('Sign Up as Viewer'),
@@ -124,25 +128,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 context.push(AuthRoutes.authSignUpManager);
               },
               child: const Text('Sign Up as Manager'),
-            ),
-            const Divider(),
-            ElevatedButton(
-              onPressed: () {
-                context.go(AdminRoutes.adminDashboard);
-              },
-              child: const Text('Admin Dashboard'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.go(ManagerRoutes.managerDashboard);
-              },
-              child: const Text('Manager Dashboard'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.go(ViewerRoutes.viewerDashboard);
-              },
-              child: const Text('Viewer Dashboard'),
             ),
           ],
         ),
