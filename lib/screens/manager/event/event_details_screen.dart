@@ -2,6 +2,9 @@
 
 import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/core/button.dart';
+import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
+import 'package:cinema_booker/features/auth/providers/auth_user.dart';
+import 'package:cinema_booker/features/cinema/widgets/map_view.dart';
 import 'package:cinema_booker/features/event/data/event_details_response.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
 import 'package:cinema_booker/features/event/services/session_service.dart';
@@ -10,6 +13,7 @@ import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/widgets/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   final int eventId;
@@ -95,6 +99,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AuthUser user = Provider.of<AuthProvider>(context, listen: false).user;
+
     return Screen(
       appBar: AppBar(
         title: const Text('Event Details'),
@@ -115,28 +121,68 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.network(
+                        "https://image.tmdb.org/t/p/w500${_event!.movie.backdrop}",
+                        width: double.infinity,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     Text(
-                      "Movie : ${_event!.movie.title}",
+                      _event!.movie.title,
                       style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                         color: ThemeColor.white,
                       ),
                     ),
+                    const SizedBox(height: 16),
                     Text(
-                      "Cinema : ${_event!.cinema.name}",
+                      _event!.movie.description,
                       style: const TextStyle(
+                        color: ThemeColor.gray,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Divider(
+                      color: ThemeColor.brown100,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      _event!.cinema.name,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                         color: ThemeColor.white,
                       ),
                     ),
+                    const SizedBox(height: 16),
+                    MapView(
+                      latitude: _event!.cinema.address.latitude,
+                      longitude: _event!.cinema.address.longitude,
+                    ),
+                    const SizedBox(height: 16),
                     Text(
-                      "Address : ${_event!.cinema.address.address}",
+                      _event!.cinema.address.address,
                       style: const TextStyle(
+                        color: ThemeColor.gray,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Divider(
+                      color: ThemeColor.brown100,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      "Sessions",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                         color: ThemeColor.white,
                       ),
                     ),
-                    // MapView(
-                    //   latitude: _event!.cinema.address.latitude,
-                    //   longitude: _event!.cinema.address.longitude,
-                    // ),
+                    const SizedBox(height: 16),
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: _event!.sessions.length,
@@ -165,18 +211,21 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                         );
                       },
                     ),
-                    Button(
-                      onPressed: () async {
-                        await context.push(
-                          ManagerRoutes.managerEventSessionCreate,
-                          extra: {
-                            "eventId": _event!.id,
-                          },
-                        );
-                        _fetchEvent();
-                      },
-                      label: 'Add Session',
-                    ),
+                    const SizedBox(height: 24),
+                    user.cinemaId != _event!.cinema.id
+                        ? const SizedBox()
+                        : Button(
+                            onPressed: () async {
+                              await context.push(
+                                ManagerRoutes.managerEventSessionCreate,
+                                extra: {
+                                  "eventId": _event!.id,
+                                },
+                              );
+                              _fetchEvent();
+                            },
+                            label: 'Add Session',
+                          ),
                   ],
                 ),
     );

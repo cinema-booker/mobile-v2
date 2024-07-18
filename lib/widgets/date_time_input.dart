@@ -1,3 +1,4 @@
+import 'package:cinema_booker/core/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -61,17 +62,11 @@ class _DateTimeInputState extends State<DateTimeInput> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextInput(
+      hint: "Date and time",
       controller: widget.controller,
-      readOnly: true,
+      isReadyOnly: true,
       onTap: () => _selectDateTime(context),
-      style: const TextStyle(
-        color: Colors.white,
-      ),
-      decoration: const InputDecoration(
-        hintText: 'Date and Time',
-        suffixIcon: Icon(Icons.calendar_today),
-      ),
     );
   }
 }

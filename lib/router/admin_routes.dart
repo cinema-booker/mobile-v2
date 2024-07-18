@@ -23,7 +23,6 @@ import 'package:cinema_booker/screens/admin/cinema/_room_create_screen.dart';
 
 import 'package:cinema_booker/screens/admin/event/event_details_screen.dart';
 import 'package:cinema_booker/screens/admin/event/event_list_screen.dart';
-import 'package:cinema_booker/screens/admin/event/event_create_screen.dart';
 import 'package:cinema_booker/screens/admin/event/_session_create_screen.dart';
 
 import 'package:cinema_booker/screens/admin/booking/booking_details_screen.dart';
@@ -191,12 +190,6 @@ class AdminRouter {
                 ),
               );
             },
-          ),
-          GoRoute(
-            path: AdminRoutes.adminEventCreate,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: EventCreateScreen(),
-            ),
           ),
           GoRoute(
             path: AdminRoutes.adminEventSessionCreate,

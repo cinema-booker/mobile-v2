@@ -59,12 +59,14 @@ class _EventListScreenState extends State<EventListScreen> {
                       color: ThemeColor.white,
                     ),
                   ),
-                  onTap: () => context.push(
-                    ViewerRoutes.viewerEventDetails,
-                    extra: {
-                      "eventId": event.id,
-                    },
-                  ),
+                  onTap: () async {
+                    await context.push(
+                      ViewerRoutes.viewerEventDetails,
+                      extra: {
+                        "eventId": event.id,
+                      },
+                    );
+                  },
                 );
               },
               fetch: (BuildContext context, int page, int limit) async {

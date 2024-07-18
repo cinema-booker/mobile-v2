@@ -8,6 +8,8 @@ class TextInput extends StatelessWidget {
   final TextInputType? keyboardType;
   final String? defaultValue;
   final TextEditingController controller;
+  final bool? isReadyOnly;
+  final Function()? onTap;
 
   const TextInput({
     super.key,
@@ -16,6 +18,8 @@ class TextInput extends StatelessWidget {
     this.keyboardType,
     this.defaultValue,
     required this.controller,
+    this.isReadyOnly,
+    this.onTap,
   });
 
   @override
@@ -29,6 +33,8 @@ class TextInput extends StatelessWidget {
       hint: hint,
       icon: icon,
       keyboardType: keyboardType ?? TextInputType.text,
+      isReadyOnly: isReadyOnly,
+      onTap: onTap,
     );
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_constants.dart';
+import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
 import 'package:cinema_booker/router/auth_routes.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +30,12 @@ class SignOutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return Button(
+      color: Colors.red,
       onPressed: () {
         _signOut(context);
       },
-      child: const Text("Sign Out"),
+      label: "Sign Out",
     );
   }
 }

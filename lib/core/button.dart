@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class Button extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
+  final Color? color;
 
   const Button({
     super.key,
     required this.label,
     required this.onPressed,
+    this.color,
   });
 
   @override
@@ -16,7 +18,9 @@ class Button extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        backgroundColor: const MaterialStatePropertyAll(ThemeColor.yellow),
+        backgroundColor: MaterialStatePropertyAll(
+          color ?? ThemeColor.yellow,
+        ),
         shape: MaterialStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

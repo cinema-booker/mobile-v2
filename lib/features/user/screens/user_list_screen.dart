@@ -72,12 +72,14 @@ class _UserListScreenState extends State<UserListScreen> {
                         color: ThemeColor.white,
                       ),
                     ),
-                    onTap: () => context.pushNamed(
-                      AppRouter.userDetails,
-                      extra: {
-                        "userId": user.id,
-                      },
-                    ),
+                    onTap: () async {
+                      await context.pushNamed(
+                        AppRouter.userDetails,
+                        extra: {
+                          "userId": user.id,
+                        },
+                      );
+                    },
                   );
                 },
                 fetch: (BuildContext context, int page, int limit) async {

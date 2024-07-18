@@ -110,6 +110,13 @@ class _BookingCreateScreenState extends State<BookingCreateScreen> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const Text(
+                      "Choose a session",
+                      style: TextStyle(
+                        color: ThemeColor.gray,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
                     SessionCheckboxGroup(
                       sessions: _event!.sessions,
                       onChanged: (session) {
@@ -118,30 +125,44 @@ class _BookingCreateScreenState extends State<BookingCreateScreen> {
                         });
                       },
                     ),
+                    const SizedBox(height: 24),
                     _selectedSession == null
                         ? const SizedBox()
-                        : SeatCheckboxGroup(
-                            bookedSeats: _selectedSession!.seats,
-                            room: _selectedSession!.room,
-                            onChanged: (seats) {
-                              setState(() {
-                                _selectedSeats = seats;
-                              });
-                            },
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _selectedSession!.startsAt.toString(),
+                                style: const TextStyle(
+                                  color: ThemeColor.gray,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              SeatCheckboxGroup(
+                                bookedSeats: _selectedSession!.seats,
+                                room: _selectedSession!.room,
+                                onChanged: (seats) {
+                                  setState(() {
+                                    _selectedSeats = seats;
+                                  });
+                                },
+                              ),
+                              const SizedBox(height: 30),
+                              Text(
+                                'Total Price : ${_selectedSeats.length * (_selectedSession?.price ?? 0)} €',
+                                style: const TextStyle(
+                                  color: ThemeColor.gray,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Button(
+                                onPressed: () {
+                                  _bookEvent(context);
+                                },
+                                label: 'Pay Now',
+                              )
+                            ],
                           ),
-                    Text(
-                      'Total Price: ${_selectedSeats.length * (_selectedSession?.price ?? 0)} €',
-                      style: const TextStyle(
-                        fontSize: ThemeFontSize.s18,
-                        color: ThemeColor.white,
-                      ),
-                    ),
-                    Button(
-                      onPressed: () {
-                        _bookEvent(context);
-                      },
-                      label: 'Book Event',
-                    ),
                   ],
                 ),
     );

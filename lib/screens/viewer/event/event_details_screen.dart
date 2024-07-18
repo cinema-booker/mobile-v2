@@ -2,6 +2,7 @@
 
 import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/core/button.dart';
+import 'package:cinema_booker/features/cinema/widgets/map_view.dart';
 import 'package:cinema_booker/features/event/data/event_details_response.dart';
 import 'package:cinema_booker/features/event/services/event_service.dart';
 import 'package:cinema_booker/router/viewer_routes.dart';
@@ -68,28 +69,68 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.network(
+                        "https://image.tmdb.org/t/p/w500${_event!.movie.backdrop}",
+                        width: double.infinity,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     Text(
-                      "Movie : ${_event!.movie.title}",
+                      _event!.movie.title,
                       style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                         color: ThemeColor.white,
                       ),
                     ),
+                    const SizedBox(height: 16),
                     Text(
-                      "Cinema : ${_event!.cinema.name}",
+                      _event!.movie.description,
                       style: const TextStyle(
+                        color: ThemeColor.gray,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Divider(
+                      color: ThemeColor.brown100,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      _event!.cinema.name,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                         color: ThemeColor.white,
                       ),
                     ),
+                    const SizedBox(height: 16),
+                    MapView(
+                      latitude: _event!.cinema.address.latitude,
+                      longitude: _event!.cinema.address.longitude,
+                    ),
+                    const SizedBox(height: 16),
                     Text(
-                      "Address : ${_event!.cinema.address.address}",
+                      _event!.cinema.address.address,
                       style: const TextStyle(
+                        color: ThemeColor.gray,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Divider(
+                      color: ThemeColor.brown100,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      "Sessions",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                         color: ThemeColor.white,
                       ),
                     ),
-                    // MapView(
-                    //   latitude: _event!.cinema.address.latitude,
-                    //   longitude: _event!.cinema.address.longitude,
-                    // ),
+                    const SizedBox(height: 16),
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: _event!.sessions.length,
@@ -111,6 +152,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                         );
                       },
                     ),
+                    const SizedBox(height: 24),
                     Button(
                       onPressed: () {
                         context.push(

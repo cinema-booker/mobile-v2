@@ -79,7 +79,10 @@ class _InfiniteListState<T> extends State<InfiniteList<T>> {
   Widget build(BuildContext context) {
     return Container(
       child: (_items.isEmpty && _error == null)
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(
+              child: CircularProgressIndicator(
+              color: ThemeColor.yellow,
+            ))
           : _error != null
               ? Center(
                   child: Text(
@@ -108,7 +111,8 @@ class _InfiniteListState<T> extends State<InfiniteList<T>> {
                                 : const Text(
                                     'No more data to load',
                                     style: TextStyle(
-                                      color: ThemeColor.white,
+                                      fontSize: 12,
+                                      color: ThemeColor.gray,
                                     ),
                                   ),
                           ),

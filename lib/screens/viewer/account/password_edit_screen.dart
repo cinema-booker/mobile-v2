@@ -2,11 +2,9 @@
 
 import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/core/button.dart';
-import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/core/password_input.dart';
 import 'package:cinema_booker/features/user/services/user_service.dart';
 import 'package:cinema_booker/widgets/screen.dart';
-import 'package:cinema_booker/core/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

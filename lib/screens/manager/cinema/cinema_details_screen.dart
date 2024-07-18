@@ -5,6 +5,7 @@ import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/features/cinema/data/cinema_details_response.dart';
 import 'package:cinema_booker/features/cinema/services/cinema_service.dart';
 import 'package:cinema_booker/features/cinema/services/room_service.dart';
+import 'package:cinema_booker/features/cinema/widgets/map_view.dart';
 import 'package:cinema_booker/router/manager_routes.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
@@ -130,32 +131,38 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    MapView(
+                      latitude: _cinema!.address.latitude,
+                      longitude: _cinema!.address.longitude,
+                    ),
                     Text(
-                      "Name: ${_cinema!.name}",
+                      _cinema!.address.address,
                       style: const TextStyle(
+                        color: ThemeColor.gray,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      _cinema!.name,
+                      style: const TextStyle(
+                        fontSize: ThemeFontSize.s24,
+                        fontWeight: FontWeight.w600,
                         color: ThemeColor.white,
                       ),
                     ),
+                    const SizedBox(height: 16),
                     Text(
-                      "Description: ${_cinema!.description}",
+                      _cinema!.description,
                       style: const TextStyle(
-                        color: ThemeColor.white,
+                        color: ThemeColor.gray,
                       ),
                     ),
-                    Text(
-                      "Address: ${_cinema!.address.address}",
-                      style: const TextStyle(
-                        color: ThemeColor.white,
-                      ),
-                    ),
-                    // MapView(
-                    //   latitude: _cinema!.address.latitude,
-                    //   longitude: _cinema!.address.longitude,
-                    // ),
+                    const SizedBox(height: 24),
                     const Text(
                       "Rooms",
                       style: TextStyle(
-                        fontSize: ThemeFontSize.s20,
+                        fontSize: ThemeFontSize.s24,
+                        fontWeight: FontWeight.w600,
                         color: ThemeColor.white,
                       ),
                     ),

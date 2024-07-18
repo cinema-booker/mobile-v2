@@ -46,9 +46,9 @@ class _BookingListScreenState extends State<BookingListScreen> {
               builder: (context, item) {
                 BookingListItem booking = item;
                 return ListTile(
-                  leading: const Icon(Icons.theaters),
+                  leading: const Icon(Icons.airplane_ticket),
                   title: Text(
-                    "Cinema : ${booking.session.event.cinema.name} - Movie : ${booking.session.event.movie.title}",
+                    "Movie : ${booking.session.event.movie.title}",
                     style: const TextStyle(
                       color: ThemeColor.white,
                     ),
@@ -56,15 +56,17 @@ class _BookingListScreenState extends State<BookingListScreen> {
                   subtitle: Text(
                     "Room : ${booking.session.room.number} - Seat : ${booking.place}",
                     style: const TextStyle(
-                      color: ThemeColor.white,
+                      color: ThemeColor.gray,
                     ),
                   ),
-                  onTap: () => context.push(
-                    ManagerRoutes.managerBookingDetails,
-                    extra: {
-                      "bookingId": booking.id,
-                    },
-                  ),
+                  onTap: () async {
+                    await context.push(
+                      ManagerRoutes.managerBookingDetails,
+                      extra: {
+                        "bookingId": booking.id,
+                      },
+                    );
+                  },
                 );
               },
               fetch: (BuildContext context, int page, int limit) async {

@@ -66,12 +66,14 @@ class _BookingListScreenState extends State<BookingListScreen> {
                         color: ThemeColor.white,
                       ),
                     ),
-                    onTap: () => context.pushNamed(
-                      AppRouter.bookingDetails,
-                      extra: {
-                        "bookingId": booking.id,
-                      },
-                    ),
+                    onTap: () async {
+                      await context.pushNamed(
+                        AppRouter.bookingDetails,
+                        extra: {
+                          "bookingId": booking.id,
+                        },
+                      );
+                    },
                   );
                 },
                 fetch: (BuildContext context, int page, int limit) async {

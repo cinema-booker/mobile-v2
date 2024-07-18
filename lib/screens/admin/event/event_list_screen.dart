@@ -33,15 +33,6 @@ class _EventListScreenState extends State<EventListScreen> {
     return ScreenList(
       appBar: AppBar(
         title: const Text('Event List'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await context.push(AdminRoutes.adminEventCreate);
-              _key = UniqueKey();
-            },
-            icon: const Icon(Icons.add),
-          )
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,12 +59,14 @@ class _EventListScreenState extends State<EventListScreen> {
                       color: ThemeColor.white,
                     ),
                   ),
-                  onTap: () => context.push(
-                    AdminRoutes.adminEventDetails,
-                    extra: {
-                      "eventId": event.id,
-                    },
-                  ),
+                  onTap: () async {
+                    await context.push(
+                      AdminRoutes.adminEventDetails,
+                      extra: {
+                        "eventId": event.id,
+                      },
+                    );
+                  },
                 );
               },
               fetch: (BuildContext context, int page, int limit) async {

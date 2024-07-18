@@ -64,6 +64,17 @@ class _AppState extends State<App> {
       theme: ThemeData(
         fontFamily: ThemeFontFamily.poppins,
         scaffoldBackgroundColor: ThemeColor.brown300,
+        appBarTheme: const AppBarTheme(
+          centerTitle: false,
+          iconTheme: IconThemeData(
+            color: ThemeColor.gray,
+          ),
+          backgroundColor: ThemeColor.brown300,
+          titleTextStyle: TextStyle(
+            color: ThemeColor.white,
+            fontSize: 20,
+          ),
+        ),
         // BottomNavigationBar
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: ThemeColor.brown300,
@@ -72,14 +83,6 @@ class _AppState extends State<App> {
           showSelectedLabels: false,
           showUnselectedLabels: false,
         ),
-        // TextFormField
-        // inputDecorationTheme: const InputDecorationTheme(
-        //   filled: true,
-        //   fillColor: ThemeColor.brown200,
-        //   hintStyle: TextStyle(
-        //     color: ThemeColor.gray,
-        //   ),
-        // ),
       ),
     );
   }

@@ -49,42 +49,118 @@ class _SeatCheckboxGroupState extends State<SeatCheckboxGroup> {
 
   @override
   Widget build(BuildContext context) {
+    final seats = generateSeats(widget.room.type);
     return Column(
-      children: generateSeats(widget.room.type).map((seat) {
-        return Opacity(
-          opacity: widget.bookedSeats.contains(seat) ? 0.5 : 1.0,
-          child: TextButton(
-            onPressed: () {
-              if (widget.bookedSeats.contains(seat)) {
-                return;
-              }
-              setState(() {
-                if (_selectedSeats.contains(seat)) {
-                  _selectedSeats.remove(seat);
-                } else {
-                  _selectedSeats.add(seat);
-                }
-              });
-              widget.onChanged(_selectedSeats);
-            },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
-                _selectedSeats.contains(seat)
-                    ? ThemeColor.white
-                    : ThemeColor.brown100,
-              ),
-            ),
-            child: Text(
-              seat,
-              style: TextStyle(
-                color: _selectedSeats.contains(seat)
-                    ? ThemeColor.black
-                    : ThemeColor.white,
-              ),
-            ),
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            width: double.infinity,
+            height: 10,
+            color: ThemeColor.brown100,
           ),
-        );
-      }).toList(),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Column(
+          children: List.generate((seats.length / 5).ceil(), (rowIndex) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(4, (colIndex) {
+                final seatIndex = rowIndex * 4 + colIndex;
+                if (seatIndex >= seats.length) {
+                  return const SizedBox(
+                    width: 60,
+                    height: 60,
+                  );
+                }
+                final seat = seats[seatIndex];
+                return Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Opacity(
+                    opacity: widget.bookedSeats.contains(seat) ? 0.5 : 1.0,
+                    child: TextButton(
+                      onPressed: () {
+                        if (widget.bookedSeats.contains(seat)) {
+                          return;
+                        }
+                        setState(() {
+                          if (_selectedSeats.contains(seat)) {
+                            _selectedSeats.remove(seat);
+                          } else {
+                            _selectedSeats.add(seat);
+                          }
+                        });
+                        widget.onChanged(_selectedSeats);
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          _selectedSeats.contains(seat)
+                              ? ThemeColor.white
+                              : ThemeColor.brown100,
+                        ),
+                        fixedSize: MaterialStateProperty.all<Size>(
+                          const Size(40, 40), // Fixed size for each seat button
+                        ),
+                      ),
+                      child: Text(
+                        seat,
+                        style: TextStyle(
+                          color: _selectedSeats.contains(seat)
+                              ? ThemeColor.black
+                              : ThemeColor.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            );
+          }),
+        )
+      ],
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Column(
+  //     children: generateSeats(widget.room.type).map((seat) {
+  //       return Opacity(
+  //         opacity: widget.bookedSeats.contains(seat) ? 0.5 : 1.0,
+  //         child: TextButton(
+  //           onPressed: () {
+  //             if (widget.bookedSeats.contains(seat)) {
+  //               return;
+  //             }
+  //             setState(() {
+  //               if (_selectedSeats.contains(seat)) {
+  //                 _selectedSeats.remove(seat);
+  //               } else {
+  //                 _selectedSeats.add(seat);
+  //               }
+  //             });
+  //             widget.onChanged(_selectedSeats);
+  //           },
+  //           style: ButtonStyle(
+  //             backgroundColor: MaterialStateProperty.all<Color>(
+  //               _selectedSeats.contains(seat)
+  //                   ? ThemeColor.white
+  //                   : ThemeColor.brown100,
+  //             ),
+  //           ),
+  //           child: Text(
+  //             seat,
+  //             style: TextStyle(
+  //               color: _selectedSeats.contains(seat)
+  //                   ? ThemeColor.black
+  //                   : ThemeColor.white,
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     }).toList(),
+  //   );
+  // }
 }

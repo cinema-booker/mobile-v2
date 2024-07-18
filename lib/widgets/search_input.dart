@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cinema_booker/core/text_input.dart';
 import 'package:flutter/material.dart';
 
 class SearchInput extends StatefulWidget {
@@ -36,12 +37,10 @@ class _SearchInputState extends State<SearchInput> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextInput(
+      hint: "Search",
       controller: _searchController,
-      decoration: const InputDecoration(
-        labelText: 'Search',
-        border: OutlineInputBorder(),
-      ),
+      icon: Icons.search,
     );
   }
 

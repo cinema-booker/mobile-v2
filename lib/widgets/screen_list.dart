@@ -15,7 +15,13 @@ class ScreenList extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       body: SafeArea(
-        child: child,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 16,
+          ),
+          child: child,
+        ),
       ),
     );
   }

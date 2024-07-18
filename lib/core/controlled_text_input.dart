@@ -1,17 +1,15 @@
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:flutter/material.dart';
 
-class BaseInput extends StatelessWidget {
+class ControlledTextInput extends StatelessWidget {
   final String hint;
   final TextInputType keyboardType;
   final bool? isObscureText;
   final IconData? icon;
   final Widget? suffix;
   final TextEditingController? controller;
-  final bool? isReadyOnly;
-  final Function()? onTap;
 
-  const BaseInput({
+  const ControlledTextInput({
     super.key,
     required this.hint,
     required this.keyboardType,
@@ -19,15 +17,11 @@ class BaseInput extends StatelessWidget {
     this.icon,
     this.suffix,
     this.controller,
-    this.isReadyOnly,
-    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      onTap: onTap,
-      readOnly: isReadyOnly ?? false,
+    return TextField(
       controller: controller,
       style: const TextStyle(
         color: ThemeColor.white,

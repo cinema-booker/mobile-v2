@@ -1,6 +1,5 @@
 import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/core/button.dart';
-import 'package:cinema_booker/core/button.dart';
 import 'package:cinema_booker/features/user/data/user_details_response.dart';
 import 'package:cinema_booker/features/user/services/user_service.dart';
 import 'package:cinema_booker/router/admin_routes.dart';
@@ -67,23 +66,37 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Name: ${_user!.name}",
+                      _user!.name,
                       style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                         color: ThemeColor.white,
                       ),
                     ),
+                    const SizedBox(height: 16),
                     Text(
-                      "Email: ${_user!.email}",
+                      _user!.email,
                       style: const TextStyle(
-                        color: ThemeColor.white,
+                        color: ThemeColor.gray,
                       ),
                     ),
-                    Text(
-                      "Role: ${_user!.role}",
-                      style: const TextStyle(
-                        color: ThemeColor.white,
+                    const SizedBox(height: 16),
+                    Container(
+                      color: ThemeColor.brown100,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        child: Text(
+                          _user!.role,
+                          style: const TextStyle(
+                            color: ThemeColor.white,
+                          ),
+                        ),
                       ),
                     ),
+                    const SizedBox(height: 24),
                     Button(
                       onPressed: () async {
                         await context.push(
@@ -96,8 +109,9 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                           _fetchUser();
                         });
                       },
-                     label: 'Edit Account',
+                      label: 'Edit Account',
                     ),
+                    const SizedBox(height: 16),
                     Button(
                       onPressed: () async {
                         await context.push(
@@ -112,6 +126,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                       },
                       label: 'Change Password',
                     ),
+                    const SizedBox(height: 16),
                     const SignOutButton(),
                   ],
                 ),
