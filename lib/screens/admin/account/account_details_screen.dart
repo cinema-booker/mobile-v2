@@ -83,24 +83,30 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        context.push(
+                      onPressed: () async {
+                        await context.push(
                           AdminRoutes.adminAccountEdit,
                           extra: {
                             'userId': _user!.id,
                           },
                         );
+                        setState(() {
+                          _fetchUser();
+                        });
                       },
                       child: const Text("Edit Profile"),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        context.push(
+                      onPressed: () async {
+                        await context.push(
                           AdminRoutes.adminPasswordEdit,
                           extra: {
                             'userId': _user!.id,
                           },
                         );
+                        setState(() {
+                          _fetchUser();
+                        });
                       },
                       child: const Text("Edit Password"),
                     ),
