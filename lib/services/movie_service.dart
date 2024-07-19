@@ -2,7 +2,7 @@ import 'package:cinema_booker/features/event/data/movie_autocomplete_response.da
 import 'package:http/http.dart' as http;
 
 class MovieService {
-  final String apiKey = "a4807a61580a2274d5e7460d82ce85c2";
+  final String apiKey = "YOUR_API_KEY";
 
   Future<MovieAutoCompleteResponse> search({
     required String query,

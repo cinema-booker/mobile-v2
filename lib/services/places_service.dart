@@ -4,7 +4,7 @@ import 'package:cinema_booker/features/cinema/data/places_autocomplete_response.
 import 'package:cinema_booker/features/cinema/data/places_geocoding_response.dart';
 
 class PlacesService {
-  final String apiKey = "AIzaSyDa1cA8ny2xUDoieyawipxpL4RYJkOR-iU";
+  final String apiKey = "YOUR_API_KEY";
 
   Future<PlacesAutoCompleteResponse> autoComplete({
     required String query,
