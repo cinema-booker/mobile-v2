@@ -11,7 +11,12 @@
   </p>
 </div>
 
+## Features :
 
+- Account management
+- Creation of cinemas and movie sessions
+- Real-time management of sending push notifications to the cinema manager in case of reservation
+- Management of ticket payment via Stripe
 
 ## Environment variable :
 
