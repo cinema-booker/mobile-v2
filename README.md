@@ -29,7 +29,8 @@ We are using 3 Api in this project :
 
 ```bash
 clone project 
-cd api
+cd mobile-v2
+change api keys
 flutter pub get
 flutter run
 ```
