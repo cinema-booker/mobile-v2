@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_constants.dart';
-import 'package:cinema_booker/core/button.dart';
-import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
+import 'package:cinema_booker/widgets/button.dart';
+import 'package:cinema_booker/providers/auth_provider.dart';
 import 'package:cinema_booker/router/auth_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

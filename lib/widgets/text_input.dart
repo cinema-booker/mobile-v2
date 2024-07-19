@@ -1,18 +1,25 @@
-import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cinema_booker/widgets/base_input.dart';
 
 class TextInput extends StatelessWidget {
   final String hint;
-  final TextEditingController controller;
+  final IconData? icon;
   final TextInputType? keyboardType;
   final String? defaultValue;
+  final TextEditingController controller;
+  final bool? isReadyOnly;
+  final Function()? onTap;
 
   const TextInput({
     super.key,
     required this.hint,
-    required this.controller,
+    this.icon,
     this.keyboardType,
     this.defaultValue,
+    required this.controller,
+    this.isReadyOnly,
+    this.onTap,
   });
 
   @override
@@ -21,17 +28,13 @@ class TextInput extends StatelessWidget {
       controller.text = defaultValue!;
     }
 
-    return TextFormField(
+    return BaseInput(
       controller: controller,
+      hint: hint,
+      icon: icon,
       keyboardType: keyboardType ?? TextInputType.text,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: ThemeColor.brown100,
-        hintText: hint,
-      ),
-      validator: (value) {
-        return null;
-      },
+      isReadyOnly: isReadyOnly,
+      onTap: onTap,
     );
   }
 }

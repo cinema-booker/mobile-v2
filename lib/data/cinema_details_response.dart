@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:cinema_booker/features/cinema/data/cinema_address.dart';
-import 'package:cinema_booker/features/cinema/data/cinema_room.dart';
+import 'package:cinema_booker/data/cinema_address.dart';
+import 'package:cinema_booker/data/cinema_room.dart';
 
 class CinemaDetailsResponse {
   final int id;

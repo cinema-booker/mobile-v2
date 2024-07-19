@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cinema_booker/features/cinema/data/cinema_room.dart';
+import 'package:cinema_booker/data/cinema_room.dart';
 
 class EventSession {
   final int id;

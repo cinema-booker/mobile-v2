@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cinema_booker/features/cinema/data/places_autocomplete_prediction.dart';
+import 'package:cinema_booker/data/places_autocomplete_prediction.dart';
 
 class PlacesAutoCompleteResponse {
   final List<PlacesAutoCompletePrediction> predictions;

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:cinema_booker/features/cinema/data/cinema_list_response.dart';
-import 'package:cinema_booker/features/event/data/event_movie.dart';
+import 'package:cinema_booker/data/cinema_list_response.dart';
+import 'package:cinema_booker/data/event_movie.dart';
 
 class EventListItem {
   final int id;

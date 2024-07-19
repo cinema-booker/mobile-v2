@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cinema_booker/features/event/data/movie_autocomplete_item.dart';
+import 'package:cinema_booker/data/movie_autocomplete_item.dart';
 
 class EventCreateRequest {
   final int cinemaId;
