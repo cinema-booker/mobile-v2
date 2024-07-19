@@ -15,7 +15,7 @@
 
 ## .env :
 
-Update variables to your own, be sure to use postgresql database
+Update variables to your own, be sure to use PostgreSQL database
 
 ## Project install
 
