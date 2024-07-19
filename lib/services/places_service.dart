@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 
-import 'package:cinema_booker/features/cinema/data/places_autocomplete_response.dart';
-import 'package:cinema_booker/features/cinema/data/places_geocoding_response.dart';
+import 'package:cinema_booker/data/places_autocomplete_response.dart';
+import 'package:cinema_booker/data/places_geocoding_response.dart';
 
 class PlacesService {
   final String apiKey = "YOUR_API_KEY";

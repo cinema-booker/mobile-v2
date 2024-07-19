@@ -1,14 +1,14 @@
 import 'package:cinema_booker/api/api_response.dart';
 import 'package:cinema_booker/api/api_service.dart';
-import 'package:cinema_booker/features/event/data/event_create_request.dart';
-import 'package:cinema_booker/features/event/data/event_details_response.dart';
-import 'package:cinema_booker/features/event/data/event_list_response.dart';
-import 'package:cinema_booker/features/event/data/movie_autocomplete_item.dart';
+import 'package:cinema_booker/data/event_create_request.dart';
+import 'package:cinema_booker/data/event_details_response.dart';
+import 'package:cinema_booker/data/event_list_response.dart';
+import 'package:cinema_booker/data/movie_autocomplete_item.dart';
 
 class EventService {
   ApiService apiService = ApiService();
 
-  Future<ApiResponse<List<EventListItem>>> listV2({
+  Future<ApiResponse<List<EventListItem>>> list({
     int page = 1,
     int limit = 10,
     String search = '',
@@ -27,7 +27,7 @@ class EventService {
     );
   }
 
-  Future<ApiResponse<EventDetailsResponse>> detailsV2({
+  Future<ApiResponse<EventDetailsResponse>> details({
     required int eventId,
   }) async {
     return apiService.get<EventDetailsResponse>(
@@ -41,7 +41,7 @@ class EventService {
     );
   }
 
-  Future<ApiResponse<Null>> createV2({
+  Future<ApiResponse<Null>> create({
     required int cinemaId,
     required MovieAutoCompleteItem movie,
   }) async {

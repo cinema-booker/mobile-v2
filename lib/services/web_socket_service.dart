@@ -1,6 +1,6 @@
 
 import 'package:cinema_booker/api/api_constants.dart';
-import 'package:cinema_booker/features/notification/notification_service.dart';
+import 'package:cinema_booker/services/notification_service.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WebSocketService {

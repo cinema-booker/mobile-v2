@@ -1,4 +1,4 @@
-import 'package:cinema_booker/features/event/data/movie_autocomplete_response.dart';
+import 'package:cinema_booker/data/movie_autocomplete_response.dart';
 import 'package:http/http.dart' as http;
 
 class MovieService {
