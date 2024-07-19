@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:cinema_booker/core/base_input.dart';
+import 'package:cinema_booker/widgets/base_input.dart';
 
 class PasswordInput extends StatefulWidget {
   final String hint;

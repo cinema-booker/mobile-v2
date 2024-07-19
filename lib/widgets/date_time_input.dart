@@ -1,4 +1,4 @@
-import 'package:cinema_booker/core/text_input.dart';
+import 'package:cinema_booker/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

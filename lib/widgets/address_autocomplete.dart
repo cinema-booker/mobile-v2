@@ -1,48 +1,49 @@
-import 'package:cinema_booker/features/event/data/movie_autocomplete_item.dart';
-import 'package:cinema_booker/features/event/data/movie_autocomplete_response.dart';
-import 'package:cinema_booker/features/event/services/movie_service.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:flutter/material.dart';
 
-class MovieAutocomplete extends StatefulWidget {
-  final void Function(MovieAutoCompleteItem) onSelected;
+import 'package:cinema_booker/services/places_service.dart';
+import 'package:cinema_booker/data/places_autocomplete_response.dart';
+import 'package:cinema_booker/data/places_autocomplete_prediction.dart';
+
+class AddressAutocomplete extends StatefulWidget {
+  final void Function(PlacesAutoCompletePrediction) onSelected;
   final void Function() onClear;
 
-  const MovieAutocomplete({
+  const AddressAutocomplete({
     super.key,
     required this.onSelected,
     required this.onClear,
   });
 
   @override
-  State<MovieAutocomplete> createState() => _MovieAutocompleteState();
+  State<AddressAutocomplete> createState() => _AddressAutocompleteState();
 }
 
-class _MovieAutocompleteState extends State<MovieAutocomplete> {
-  final MovieService _movieService = MovieService();
+class _AddressAutocompleteState extends State<AddressAutocomplete> {
+  final PlacesService _placesService = PlacesService();
 
-  List<MovieAutoCompleteItem> _movies = [];
+  List<PlacesAutoCompletePrediction> _predictions = [];
 
   Future<void> _getPredictions(String query) async {
-    MovieAutoCompleteResponse response =
-        await _movieService.search(query: query);
+    PlacesAutoCompleteResponse response =
+        await _placesService.autoComplete(query: query);
     setState(() {
-      _movies = response.movies;
+      _predictions = response.predictions;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Autocomplete<MovieAutoCompleteItem>(
-      displayStringForOption: (movie) => movie.title,
+    return Autocomplete<PlacesAutoCompletePrediction>(
+      displayStringForOption: (prediction) => prediction.description,
       optionsBuilder: (TextEditingValue textEditingValue) {
         if (textEditingValue.text == '') {
-          return const Iterable<MovieAutoCompleteItem>.empty();
+          return const Iterable<PlacesAutoCompletePrediction>.empty();
         }
         _getPredictions(textEditingValue.text);
-        return _movies;
+        return _predictions;
       },
-      onSelected: (MovieAutoCompleteItem selection) {
+      onSelected: (PlacesAutoCompletePrediction selection) {
         widget.onSelected(selection);
       },
       fieldViewBuilder: (
@@ -56,13 +57,13 @@ class _MovieAutocompleteState extends State<MovieAutocomplete> {
           controller: fieldTextEditingController,
           focusNode: fieldFocusNode,
           decoration: InputDecoration(
-            hintText: 'Search for a movie...',
+            hintText: 'Search for a place...',
             suffixIcon: IconButton(
               icon: const Icon(Icons.clear),
               onPressed: () {
                 fieldTextEditingController.clear();
                 setState(() {
-                  _movies = [];
+                  _predictions = [];
                 });
                 widget.onClear();
               },

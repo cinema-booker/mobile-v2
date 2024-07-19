@@ -1,8 +1,8 @@
-import 'package:cinema_booker/features/event/data/booking_list_response.dart';
-import 'package:cinema_booker/features/event/services/booking_service.dart';
+import 'package:cinema_booker/data/booking_list_response.dart';
+import 'package:cinema_booker/services/booking_service.dart';
 import 'package:cinema_booker/router/admin_routes.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
-import 'package:cinema_booker/widgets/infinite_list_v2.dart';
+import 'package:cinema_booker/widgets/infinite_list.dart';
 import 'package:cinema_booker/widgets/screen_list.dart';
 import 'package:cinema_booker/widgets/search_input.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +70,7 @@ class _BookingListScreenState extends State<BookingListScreen> {
                 );
               },
               fetch: (BuildContext context, int page, int limit) async {
-                return await _bookingService.listV2(
+                return await _bookingService.list(
                   page: page,
                   limit: limit,
                   search: _search,

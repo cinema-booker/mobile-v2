@@ -1,4 +1,4 @@
-import 'package:cinema_booker/features/event/data/booking_session.dart';
+import 'package:cinema_booker/data/booking_session.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:flutter/material.dart';
 
