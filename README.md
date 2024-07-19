@@ -19,7 +19,8 @@ We are using 3 Api in this project :
 
 [TMDB](https://developer.themoviedb.org/reference/intro/getting-started) :  Used to get movie informations ([API Key position](https://github.com/cinema-booker/mobile-v2/blob/46d6537e4686105a02fe7c1a85218b74a490063f/lib/services/movie_service.dart#L5)) 
 
-[RESEND](https://resend.com/docs/introduction) : Used to send emails
+[Google Places](https://developers.google.com/maps/documentation/places/web-service/overview?hl=fr) : Used for locations ([API Key position](https://github.com/cinema-booker/mobile-v2/blob/46d6537e4686105a02fe7c1a85218b74a490063f/lib/services/places_service.dart#L7)) 
+
 
 [STRIPE](https://docs.stripe.com/api) : Used for payments ([API Key position](https://github.com/cinema-booker/mobile-v2/blob/46d6537e4686105a02fe7c1a85218b74a490063f/lib/services/stripe_service.dart#L8)) 
 
