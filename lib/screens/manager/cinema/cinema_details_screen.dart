@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
-import 'package:cinema_booker/core/button.dart';
-import 'package:cinema_booker/features/cinema/data/cinema_details_response.dart';
-import 'package:cinema_booker/features/cinema/services/cinema_service.dart';
-import 'package:cinema_booker/features/cinema/services/room_service.dart';
-import 'package:cinema_booker/features/cinema/widgets/map_view.dart';
+import 'package:cinema_booker/widgets/button.dart';
+import 'package:cinema_booker/data/cinema_details_response.dart';
+import 'package:cinema_booker/services/cinema_service.dart';
+import 'package:cinema_booker/services/room_service.dart';
+import 'package:cinema_booker/widgets/map_view.dart';
 import 'package:cinema_booker/router/manager_routes.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
@@ -41,7 +41,7 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
 
   Future<void> _fetchCinema() async {
     ApiResponse<CinemaDetailsResponse> response =
-        await _cinemaService.detailsV2(
+        await _cinemaService.details(
       cinemaId: widget.cinemaId,
     );
 
@@ -52,7 +52,7 @@ class _CinemaDetailsScreenState extends State<CinemaDetailsScreen> {
   }
 
   Future<void> _deleteRoom(int roomId) async {
-    ApiResponse<Null> response = await _roomService.deleteV2(
+    ApiResponse<Null> response = await _roomService.delete(
       cinemaId: widget.cinemaId,
       roomId: roomId,
     );

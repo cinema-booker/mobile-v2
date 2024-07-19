@@ -1,6 +1,6 @@
 import 'package:cinema_booker/api/api_response.dart';
-import 'package:cinema_booker/features/event/data/booking_list_response.dart';
-import 'package:cinema_booker/features/event/services/booking_service.dart';
+import 'package:cinema_booker/data/booking_list_response.dart';
+import 'package:cinema_booker/services/booking_service.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/widgets/screen.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   }
 
   void _fetchBooking() async {
-    ApiResponse<BookingListItem> response = await _bookingService.detailsV2(
+    ApiResponse<BookingListItem> response = await _bookingService.details(
       bookingId: widget.bookingId,
     );
 

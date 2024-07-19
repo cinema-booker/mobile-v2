@@ -1,4 +1,4 @@
-import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
+import 'package:cinema_booker/providers/auth_provider.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:cinema_booker/widgets/screen.dart';

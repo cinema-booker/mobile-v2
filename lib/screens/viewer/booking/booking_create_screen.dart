@@ -1,15 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
-import 'package:cinema_booker/core/button.dart';
-import 'package:cinema_booker/features/event/data/booking_create_response.dart';
-import 'package:cinema_booker/features/event/data/booking_session.dart';
-import 'package:cinema_booker/features/event/data/event_details_response.dart';
-import 'package:cinema_booker/features/event/services/booking_service.dart';
-import 'package:cinema_booker/features/event/services/event_service.dart';
-import 'package:cinema_booker/features/event/services/stripe_service.dart';
-import 'package:cinema_booker/features/event/widgets/seat_checkbox_group.dart';
-import 'package:cinema_booker/features/event/widgets/session_checkbox_group.dart';
+import 'package:cinema_booker/widgets/button.dart';
+import 'package:cinema_booker/data/booking_create_response.dart';
+import 'package:cinema_booker/data/booking_session.dart';
+import 'package:cinema_booker/data/event_details_response.dart';
+import 'package:cinema_booker/services/booking_service.dart';
+import 'package:cinema_booker/services/event_service.dart';
+import 'package:cinema_booker/services/stripe_service.dart';
+import 'package:cinema_booker/widgets/seat_checkbox_group.dart';
+import 'package:cinema_booker/widgets/session_checkbox_group.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/theme/theme_font.dart';
 import 'package:cinema_booker/widgets/screen.dart';
@@ -44,7 +44,7 @@ class _BookingCreateScreenState extends State<BookingCreateScreen> {
   }
 
   void _fetchEvent() async {
-    ApiResponse<EventDetailsResponse> response = await _eventService.detailsV2(
+    ApiResponse<EventDetailsResponse> response = await _eventService.details(
       eventId: widget.eventId,
     );
 
@@ -57,7 +57,7 @@ class _BookingCreateScreenState extends State<BookingCreateScreen> {
   Future<void> _bookEvent(BuildContext context) async {
     if (_selectedSession != null || _selectedSeats.isNotEmpty) {
       ApiResponse<BookingCreateResponse> response =
-          await _bookingService.createV2(
+          await _bookingService.create(
         sessionId: _selectedSession!.id,
         seats: _selectedSeats,
       );

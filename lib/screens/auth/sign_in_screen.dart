@@ -2,14 +2,14 @@
 
 import 'package:cinema_booker/api/api_constants.dart';
 import 'package:cinema_booker/api/api_response.dart';
-import 'package:cinema_booker/core/button.dart';
-import 'package:cinema_booker/core/button_text.dart';
-import 'package:cinema_booker/core/password_input.dart';
-import 'package:cinema_booker/core/text_input.dart';
-import 'package:cinema_booker/features/auth/data/get_me_response.dart';
-import 'package:cinema_booker/features/auth/data/sign_in_response.dart';
-import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
-import 'package:cinema_booker/features/auth/services/auth_service.dart';
+import 'package:cinema_booker/widgets/button.dart';
+import 'package:cinema_booker/widgets/button_text.dart';
+import 'package:cinema_booker/widgets/password_input.dart';
+import 'package:cinema_booker/widgets/text_input.dart';
+import 'package:cinema_booker/data/get_me_response.dart';
+import 'package:cinema_booker/data/sign_in_response.dart';
+import 'package:cinema_booker/providers/auth_provider.dart';
+import 'package:cinema_booker/services/auth_service.dart';
 import 'package:cinema_booker/router/admin_routes.dart';
 import 'package:cinema_booker/router/auth_routes.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
@@ -42,7 +42,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Future<void> _signIn() async {
     if (_formKey.currentState!.validate()) {
-      ApiResponse<SignInResponse> response = await _authService.signInV2(
+      ApiResponse<SignInResponse> response = await _authService.signIn(
         email: _emailController.text,
         password: _passwordController.text,
       );
@@ -59,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
           response.data!.token,
         );
 
-        ApiResponse<GetMeResponse> meResponse = await _authService.meV2();
+        ApiResponse<GetMeResponse> meResponse = await _authService.me();
         if (meResponse.error != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

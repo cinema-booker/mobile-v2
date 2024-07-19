@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
-import 'package:cinema_booker/core/button.dart';
-import 'package:cinema_booker/features/cinema/services/room_service.dart';
+import 'package:cinema_booker/widgets/button.dart';
+import 'package:cinema_booker/services/room_service.dart';
 import 'package:cinema_booker/widgets/screen.dart';
-import 'package:cinema_booker/core/text_input.dart';
+import 'package:cinema_booker/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,7 +37,7 @@ class _RoomCreateScreenState extends State<RoomCreateScreen> {
 
   Future<void> _createRoom() async {
     if (_formKey.currentState!.validate()) {
-      ApiResponse<Null> response = await _roomService.createV2(
+      ApiResponse<Null> response = await _roomService.create(
         cinemaId: widget.cinemaId,
         number: _numberController.text,
         type: _typeController.text,

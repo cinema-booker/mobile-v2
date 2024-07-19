@@ -1,6 +1,6 @@
 import 'package:cinema_booker/api/api_response.dart';
-import 'package:cinema_booker/features/user/data/user_details_response.dart';
-import 'package:cinema_booker/features/user/services/user_service.dart';
+import 'package:cinema_booker/data/user_details_response.dart';
+import 'package:cinema_booker/services/user_service.dart';
 import 'package:cinema_booker/router/admin_routes.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/widgets/screen.dart';
@@ -33,7 +33,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   }
 
   Future<void> _fetchUser() async {
-    ApiResponse<UserDetailsResponse> response = await _userService.detailsV2(
+    ApiResponse<UserDetailsResponse> response = await _userService.details(
       userId: widget.userId,
     );
 

@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cinema_booker/api/api_response.dart';
-import 'package:cinema_booker/core/button.dart';
-import 'package:cinema_booker/features/cinema/widgets/map_view.dart';
-import 'package:cinema_booker/features/event/data/event_details_response.dart';
-import 'package:cinema_booker/features/event/services/event_service.dart';
+import 'package:cinema_booker/widgets/button.dart';
+import 'package:cinema_booker/widgets/map_view.dart';
+import 'package:cinema_booker/data/event_details_response.dart';
+import 'package:cinema_booker/services/event_service.dart';
 import 'package:cinema_booker/router/viewer_routes.dart';
 import 'package:cinema_booker/theme/theme_color.dart';
 import 'package:cinema_booker/widgets/screen.dart';
@@ -37,7 +37,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   }
 
   void _fetchEvent() async {
-    ApiResponse<EventDetailsResponse> response = await _eventService.detailsV2(
+    ApiResponse<EventDetailsResponse> response = await _eventService.details(
       eventId: widget.eventId,
     );
 
