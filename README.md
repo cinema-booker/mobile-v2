@@ -1,28 +1,34 @@
 <div align="center">
   <a>
     <img 
-      src="https://cdn3d.iconscout.com/3d/premium/thumb/video-reel-10748479-8725554.png?f=webp"
+      src="https://cdn3d.iconscout.com/3d/premium/thumb/video-application-9582616-7746822.png?f=webp"
       alt="Logo" 
       height="100" />
   </a>
-  <h3 align="center"> Cinema Booker - Go Api </h3>
+  <h3 align="center"> Cinema Booker - Flutter App </h3>
   <p align="center">
-     Cinema Booker API using Golang
+     Cinema Booker App using flutter and Dart
   </p>
 </div>
 
 
 
-## .env :
+## Environment variable :
 
-Update variables to your own, be sure to use PostgreSQL database
+We are using 3 Api in this project : 
+
+[TMDB](https://developer.themoviedb.org/reference/intro/getting-started) :  Used to get movie informations ([API Key position](https://github.com/cinema-booker/mobile-v2/blob/46d6537e4686105a02fe7c1a85218b74a490063f/lib/services/movie_service.dart#L5)) 
+
+[RESEND](https://resend.com/docs/introduction) : Used to send emails
+
+[STRIPE](https://docs.stripe.com/api) : Used for payments ([API Key position](https://github.com/cinema-booker/mobile-v2/blob/46d6537e4686105a02fe7c1a85218b74a490063f/lib/services/stripe_service.dart#L8)) 
+
 
 ## Project install
 
 ```bash
 clone project 
-cd mobile_v2
-.env   # update variables to your own
-make install
-make run
+cd api
+flutter pub get
+flutter run
 ```
