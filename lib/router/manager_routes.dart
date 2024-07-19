@@ -1,5 +1,5 @@
-import 'package:cinema_booker/features/auth/providers/auth_provider.dart';
-import 'package:cinema_booker/features/auth/providers/auth_user.dart';
+import 'package:cinema_booker/providers/auth_provider.dart';
+import 'package:cinema_booker/providers/auth_user.dart';
 import 'package:cinema_booker/router/manager_bottom_navigation.dart';
 import 'package:go_router/go_router.dart';
 
